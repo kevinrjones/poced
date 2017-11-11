@@ -8,6 +8,8 @@ using System.Web.Optimization;
 using System.Web.Routing;
 using Autofac;
 using Autofac.Integration.Mvc;
+using DataInterfaces;
+using FileBasedData;
 
 namespace pocedweb
 {
@@ -33,6 +35,7 @@ namespace pocedweb
 
             var repositoryAssemblies = Assembly.Load("ArticlesService");
             builder.RegisterAssemblyTypes(repositoryAssemblies).AsImplementedInterfaces();
+            builder.RegisterType<ArticlesData>().As<IArticlesData>();
 
             builder.RegisterFilterProvider();
         }

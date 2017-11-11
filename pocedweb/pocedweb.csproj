@@ -237,6 +237,14 @@
       <Project>{CDEAADC1-DB02-47BC-853A-D367F3C4CB4F}</Project>
       <Name>ArticlesService</Name>
     </ProjectReference>
+    <ProjectReference Include="..\DataInterfaces\DataInterfaces.csproj">
+      <Project>{5859F660-6B09-4320-8C78-B46BA31B4E1F}</Project>
+      <Name>DataInterfaces</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\FileBasedData\FileBasedData.csproj">
+      <Project>{F5A9EC20-1C54-4FE0-92BE-0CB3F2B303C7}</Project>
+      <Name>FileBasedData</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

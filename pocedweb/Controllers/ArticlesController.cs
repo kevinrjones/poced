@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -20,7 +21,10 @@ namespace pocedweb.Controllers
         // GET: Articles
         public ActionResult Index()
         {
-            var articles = new List<Article>();
+            var articles = new List<Article>
+            {
+                new Article { Id = 1 }
+            };
             return View(articles);
         }
 
@@ -41,7 +45,11 @@ namespace pocedweb.Controllers
          */
         public FileStreamResult Image(int id)
         {
-            return null;
+            var imageByteArray = _articlesService.GetImage(id);
+            MemoryStream stream = new MemoryStream(imageByteArray);
+
+            return new FileStreamResult(stream, "image/png");
+
         }
     }
 }
