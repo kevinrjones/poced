@@ -24,7 +24,7 @@ namespace pocedweb
                       "~/Scripts/respond.js"));
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
-                      "~/Content/bootstrap.css",
+                "~/Content/bootstrap-glyph/css/bootstrap.css",
                       "~/Content/site.css"));
         }
     }

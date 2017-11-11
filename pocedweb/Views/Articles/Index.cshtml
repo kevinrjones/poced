@@ -1,0 +1,70 @@
+﻿@using pocedweb.Models
+@model List<pocedweb.Models.Article>
+
+@{
+    ViewBag.Title = "Articles";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div id="content">
+    <div id="page_queue"
+         class="wrapper wrapper_full page_queue_grid active">
+        <div class="queue_secondarynav queue_secondarynav_main">
+            <h2 class="queue_title queue_title_main queue_title_queue">
+                My
+                List
+            </h2>
+            <a class="queue_toggle_listqueue queue_toggle_listqueuesecondary"
+               href="#">
+                <span class="nav-toggledetail">in My List</span> <span class="nav-togglenotch"></span>
+                <div id="" class="dropSelector toggle_listqueue_container"
+                     style="">
+                    <a></a>
+                    <div class="popover-new popover-new-bottom">
+                        <div class="popover-new-header">
+                            <a class="popover-new-close" href="#"></a>
+                        </div>
+                        <div class="arrow"></div>
+                        <ul class="popover-new-list">
+                            <li class="popover-new-listitem mylist" val="mylist">
+                                <a href="#">My List</a>
+                            </li>
+                            <li class="popover-new-listitem favorites" val="favorites">
+                                <a href="#">Favorites</a>
+                            </li>
+                            <li class="popover-new-listitem archive last" val="archive">
+                                <a href="#">Archive</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </a>
+            <nav class="queue_secondarynav_actions">
+                <ul>
+                    <li class="pagenav_gridlist pagenav_gridview">
+                        <a class="hint_queue" data-intro="Tile/List View Toggle"
+                           data-position="bottom" href="/a/queue/list/"
+                           title="Switch to List View">Tile View</a>
+                    </li>
+                    <li class="pagenav_bulkedit">
+                        <a class="hint_queue"
+                           title="Bulk Edit" data-intro="Bulk Edit"
+                           data-position="bottomlower" href="#">Bulk Edit</a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+        <ul id="queue" class="queue_list queue_list_main">
+            @foreach (var article in Model)
+            {
+                <li class="item item_type_normal_excerpt adjusted">
+                    <div class="item_content">
+                        <img src="@Url.Action("Image", "Articles", new{Id = article.Id})"/>
+                    </div>                    
+                </li>
+            }
+        </ul>
+    </div>
+</div>
+
+
