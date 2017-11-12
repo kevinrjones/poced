@@ -50,9 +50,17 @@ namespace pocedweb.Controllers
         }
 
         [Route("Articles/Create")]
-        public ActionResult Create()
+        public ActionResult Create(NewArticle article)
         {
-            return View();
+            if (ModelState.IsValid)
+            {
+                // add model to database
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                return View("New", new Article { Title = article.Title, Url = article.Url, Tags = article.Tags });
+            }
         }
 
     }

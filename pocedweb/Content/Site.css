@@ -15191,3 +15191,16 @@ blockquote {
 .pkt-nav .rightItem a {
     margin-left: 5px;
 }
+
+.input-validation-error {
+    /*border: 1px red solid;*/
+}
+
+.field-validation-error {
+    color: red;
+}
+
+.validation-summary-errors li{
+    color: red;
+    padding: 3px;
+}

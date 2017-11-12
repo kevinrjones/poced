@@ -1,8 +1,34 @@
-﻿@model pocedweb.Models.NewArticle
+﻿@model pocedweb.Models.Article
 
 @{
     ViewBag.Title = "New Article";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>New Article</h2>
+<div id="content">
+    <div id="page_queue"
+         class="wrapper wrapper_full page_queue_grid active">
+
+        <div>
+            <h2>Save Item to Poced</h2>
+            @using (Html.BeginForm("create", "Articles"))
+            {
+                <div>
+                    @Html.TextBox("Title", "", new { placeholder = "Title" })
+                    @Html.ValidationMessage("Title", "*")
+                </div>
+                <div>
+                    @Html.TextBox("Url", "", new { placeholder = "http://..." })
+                    @Html.ValidationMessage("Url", "*")
+                </div>
+                <div>
+                    @Html.TextBox("Tags", "", new { placeholder = "Tags" })
+                </div>
+                <div>
+                    <input type="submit" value="Add Article" />
+                </div>
+                @Html.ValidationSummary()
+            }
+        </div>
+    </div>
+</div>
