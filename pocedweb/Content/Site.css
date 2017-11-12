@@ -1806,7 +1806,7 @@ blockquote {
     right: 6px;
     top: 5px;
     overflow: hidden;
-    background: url(/a/i/icons_toolbar_bottom@1x.png?122) 2px -1088px no-repeat;
+    /*background: url(/a/i/icons_toolbar_bottom@1x.png?122) 2px -1088px no-repeat;*/
     text-indent: -9999px
 }
 
@@ -1841,7 +1841,7 @@ blockquote {
 }
 
 .wrapper_tag_alt .tag_clear {
-    background: url(/a/i/icons_toolbar_bottom@1x.png?122) 2px -1088px no-repeat;
+    /*background: url(/a/i/icons_toolbar_bottom@1x.png?122) 2px -1088px no-repeat;*/
     border: 0;
     display: none;
     padding: 3px;
@@ -2072,7 +2072,7 @@ blockquote {
 }
 
 #pagenav_tagfilter > a {
-    background: url(/a/i/icons_toolbar_bottom@1x.png?122) 7px -845px no-repeat;
+    /*background: url(/a/i/icons_toolbar_bottom@1x.png?122) 7px -845px no-repeat;*/
     border-radius: 5px;
     cursor: pointer;
     display: block;
@@ -9321,7 +9321,7 @@ blockquote {
 }
 
 .search-chip-favorite, .search-chip-tag {
-    background: url(/a/i/icons_queueitem@1x.png) -400px -635px no-repeat;
+    /*background: url(/a/i/icons_queueitem@1x.png) -400px -635px no-repeat;*/
     height: 18px;
     float: left;
     margin-right: 5px;
@@ -10230,7 +10230,7 @@ blockquote {
 }
 
 .queue_list .item .sub .tags .edit {
-    background: url(/a/i/icons_queueitem@1x.png?122) 0 -398px no-repeat;
+    /*background: url(/a/i/icons_queueitem@1x.png?122) 0 -398px no-repeat;*/
     display: none;
     margin-top: 4px;
     padding-left: 16px
@@ -10250,7 +10250,7 @@ blockquote {
     height: 10px;
     padding-left: 3px;
     padding-right: 3px;
-    background: url(/a/i/icons_queueitem@1x.png?122) 0 -480px no-repeat;
+    /*background: url(/a/i/icons_queueitem@1x.png?122) 0 -480px no-repeat;*/
     opacity: .5;
     top: 0;
     width: 7px
@@ -10376,12 +10376,12 @@ blockquote {
     }
 
     .toolbar_queue li > a {
-        background-image: url(/a/i/icons_toolbar_bottom@2x.png?122);
+        /*background-image: url(/a/i/icons_toolbar_bottom@2x.png?122);*/
         background-size: 600px 1550px
     }
 
     .queue_list .buttons a, .queue_list .item .sub li.tags .edit, .queue_list .item .sub li.tags.hasTags .edit, .search-chip-favorite, .search-chip-tag {
-        background-image: url(/a/i/icons_queueitem@2x.png?122);
+        /*background-image: url(/a/i/icons_queueitem@2x.png?122);*/
         background-size: 500px 750px
     }
 
@@ -12547,7 +12547,7 @@ blockquote {
 }
 
 #subnav .icons a, .toolbar_reader .icons a {
-    background-image: url(/a/i/icons_reader-88916797fd4fde57d4120dea4c239f1d@1x.png);
+    /*background-image: url(/a/i/icons_reader-88916797fd4fde57d4120dea4c239f1d@1x.png);*/
     background-repeat: no-repeat;
     margin-left: auto;
     margin-right: auto;
@@ -12557,7 +12557,7 @@ blockquote {
 
 @media only screen and (-webkit-min-device-pixel-ratio:1.5), only screen and (min-resolution:144dpi) {
     #subnav .icons a, .toolbar_reader .icons a {
-        background-image: url(/a/i/icons_reader-88916797fd4fde57d4120dea4c239f1d@2x.png);
+        /*background-image: url(/a/i/icons_reader-88916797fd4fde57d4120dea4c239f1d@2x.png);*/
         background-size: 514px 415px
     }
 }
@@ -12575,13 +12575,13 @@ blockquote {
 }
 
 #subnav .icons a {
-    background-image: url(/a/i/icons_toolbar_top@1x.png);
+    /*background-image: url(/a/i/icons_toolbar_top@1x.png);*/
     padding: 0
 }
 
 @media only screen and (-webkit-min-device-pixel-ratio:1.5), only screen and (min-resolution:144dpi) {
     #subnav .icons a {
-        background-image: url(/a/i/icons_toolbar_top@2x.png);
+        /*background-image: url(/a/i/icons_toolbar_top@2x.png);*/
         background-size: 600px 1550px
     }
 }
@@ -13130,17 +13130,17 @@ blockquote {
 }
 
 .icons #submenu_font_down > a, .no-touch .icons #submenu_font_down > .inactive:hover, .no-touch .inactive #submenu_font_down > a:hover {
-    background-image: url(/a/i/icons_toolbar_bottom@1x.png?122);
+    /*background-image: url(/a/i/icons_toolbar_bottom@1x.png?122);*/
     background-position: 0 -50px
 }
 
 .no-touch #submenu_font_down > a:hover {
-    background-image: url(/a/i/icons_toolbar_bottom@1x.png?122);
+    /*background-image: url(/a/i/icons_toolbar_bottom@1x.png?122);*/
     background-position: -400px -50px
 }
 
 .icons #submenu_font_up > a, .no-touch .icons #submenu_font_up > .inactive:hover, .no-touch .inactive #submenu_font_up > a:hover {
-    background-image: url(/a/i/icons_toolbar_bottom@1x.png?122);
+    /*background-image: url(/a/i/icons_toolbar_bottom@1x.png?122);*/
     background-position: 0 -130px;
     margin-right: 0
 }
@@ -13150,7 +13150,7 @@ blockquote {
 }
 
 #submenu_font_placeholder {
-    background-image: url(/a/i/icons_toolbar_bottom@1x.png?122);
+    /*background-image: url(/a/i/icons_toolbar_bottom@1x.png?122);*/
     background-position: -200px -46px;
     height: 24px;
     margin-right: 16px;
@@ -13268,7 +13268,7 @@ blockquote {
 }
 
 .moreactions_delete .nav-icon, .moreactions_edittags .nav-icon, .moreactions_textoptions .nav-icon {
-    background: url(/a/i/icons_reader-88916797fd4fde57d4120dea4c239f1d@1x.png) no-repeat;
+    /*background: url(/a/i/icons_reader-88916797fd4fde57d4120dea4c239f1d@1x.png) no-repeat;*/
     display: block;
     left: 1.7em;
     position: absolute;
@@ -13277,7 +13277,7 @@ blockquote {
 
 @media only screen and (-webkit-min-device-pixel-ratio:1.5), only screen and (min-resolution:144dpi) {
     .moreactions_delete .nav-icon, .moreactions_edittags .nav-icon, .moreactions_textoptions .nav-icon {
-        background-image: url(/a/i/icons_reader-88916797fd4fde57d4120dea4c239f1d@2x.png);
+        /*background-image: url(/a/i/icons_reader-88916797fd4fde57d4120dea4c239f1d@2x.png);*/
         background-size: 514px 415px
     }
 }
@@ -14499,7 +14499,7 @@ blockquote {
 
 @media only screen and (-webkit-min-device-pixel-ratio:1.5), only screen and (min-resolution:144dpi) {
     #submenu_font_down > a:hover, #submenu_font_placeholder, .icons #submenu_font_down > .inactive:hover, .icons #submenu_font_down > a, .icons #submenu_font_up > .inactive:hover, .icons #submenu_font_up > a, .inactive #submenu_font_down > a:hover, .inactive #submenu_font_up > a:hover {
-        background-image: url(/a/i/icons_toolbar_bottom@2x.png?122);
+        /*background-image: url(/a/i/icons_toolbar_bottom@2x.png?122);*/
         background-size: 600px 1550px
     }
 

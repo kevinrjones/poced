@@ -8,6 +8,8 @@ namespace pocedweb.Controllers
 {
     public class HomeController : Controller
     {
+        [Route("Home/About")]
+
         public ActionResult About()
         {
             ViewBag.Message = "Your application description page.";

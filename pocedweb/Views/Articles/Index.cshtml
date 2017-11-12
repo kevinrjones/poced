@@ -58,9 +58,7 @@
             @foreach (var article in Model)
             {
                 <li class="item item_type_normal_excerpt adjusted">
-                    <div class="item_content">
-                        <img src="@Url.Action("Image", "Articles", new{Id = article.Id})"/>
-                    </div>                    
+                    @Html.Partial("_Article", article)
                 </li>
             }
         </ul>

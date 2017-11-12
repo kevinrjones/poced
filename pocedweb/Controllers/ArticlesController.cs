@@ -19,30 +19,21 @@ namespace pocedweb.Controllers
             _articlesService = articlesService;
         }
         // GET: Articles
+        [Route("Articles")]
+        [Route("")]
         public ActionResult Index()
         {
             var articles = new List<Article>
             {
-                new Article { Id = 1 }
+                new Article { Id = 1, Title = "BBC Sport", Url = "http://news.bbc.co.uk/sport"}
             };
             return View(articles);
         }
 
-        /*
-         * 	public ModelAndView index(@CurrentUser AuthenticatedUser user) {
-		List<GetJacketArticle> serviceEntries = service.getAllArticles(user.getId());
-		List<Article> articles = new ArrayList<Article>();
-		serviceEntries.forEach(e -> {
-			Article entry = new Article(e);
-			articles.add(entry);
-		});
 
-		ModelAndView mv = new ModelAndView("article/index");
-		mv.addObject("articles", articles);
-		
-		return mv;
-	}
-         */
+        // calculate $($("#queue .item")[0]).height()
+        [Route("Articles/Image/{id}")]
+
         public FileStreamResult Image(int id)
         {
             var imageByteArray = _articlesService.GetImage(id);
@@ -51,5 +42,18 @@ namespace pocedweb.Controllers
             return new FileStreamResult(stream, "image/png");
 
         }
+
+        [Route("Articles/New")]
+        public ActionResult New()
+        {
+            return View();
+        }
+
+        [Route("Articles/Create")]
+        public ActionResult Create()
+        {
+            return View();
+        }
+
     }
 }
