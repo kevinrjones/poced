@@ -259,6 +259,14 @@
       <Project>{F5A9EC20-1C54-4FE0-92BE-0CB3F2B303C7}</Project>
       <Name>FileBasedData</Name>
     </ProjectReference>
+    <ProjectReference Include="..\PocedRepository\PocedRepository.csproj">
+      <Project>{78ACB328-CAF4-4E5E-B99E-EFA6B09E6AB0}</Project>
+      <Name>PocedRepository</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Repository\Repository.csproj">
+      <Project>{0A441152-DB5A-43E4-9192-49C7D904524E}</Project>
+      <Name>Repository</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

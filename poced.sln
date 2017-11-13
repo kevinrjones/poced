@@ -11,6 +11,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArticlesService", "Articles
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FileBasedData", "FileBasedData\FileBasedData.csproj", "{F5A9EC20-1C54-4FE0-92BE-0CB3F2B303C7}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Repository", "Repository\Repository.csproj", "{0A441152-DB5A-43E4-9192-49C7D904524E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PocedRepository", "PocedRepository\PocedRepository.csproj", "{78ACB328-CAF4-4E5E-B99E-EFA6B09E6AB0}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +37,14 @@ Global
 		{F5A9EC20-1C54-4FE0-92BE-0CB3F2B303C7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F5A9EC20-1C54-4FE0-92BE-0CB3F2B303C7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F5A9EC20-1C54-4FE0-92BE-0CB3F2B303C7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0A441152-DB5A-43E4-9192-49C7D904524E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0A441152-DB5A-43E4-9192-49C7D904524E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0A441152-DB5A-43E4-9192-49C7D904524E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0A441152-DB5A-43E4-9192-49C7D904524E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{78ACB328-CAF4-4E5E-B99E-EFA6B09E6AB0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{78ACB328-CAF4-4E5E-B99E-EFA6B09E6AB0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{78ACB328-CAF4-4E5E-B99E-EFA6B09E6AB0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{78ACB328-CAF4-4E5E-B99E-EFA6B09E6AB0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

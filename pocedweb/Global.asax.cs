@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Reflection;
 using System.Web;
@@ -10,6 +11,7 @@ using Autofac;
 using Autofac.Integration.Mvc;
 using DataInterfaces;
 using FileBasedData;
+using PocedRepository;
 
 namespace pocedweb
 {
@@ -31,11 +33,15 @@ namespace pocedweb
 
         private void RegisterTypes(ContainerBuilder builder)
         {
+            var connectionString = ConfigurationManager.ConnectionStrings["pocedEntities"].ConnectionString;
             builder.RegisterControllers(typeof(MvcApplication).Assembly);
 
             var repositoryAssemblies = Assembly.Load("ArticlesService");
             builder.RegisterAssemblyTypes(repositoryAssemblies).AsImplementedInterfaces();
             builder.RegisterType<ArticlesData>().As<IArticlesData>();
+
+            builder.RegisterType<UsersRepository>().As<IUsersRepository>().WithParameter(new NamedParameter("connectionString", connectionString));            
+            builder.RegisterType<ArticlesRepository>().As<IArticlesRepository>().WithParameter(new NamedParameter("connectionString", connectionString));
 
             builder.RegisterFilterProvider();
         }
