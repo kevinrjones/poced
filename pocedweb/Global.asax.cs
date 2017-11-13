@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Linq;
+﻿using System.Configuration;
 using System.Reflection;
-using System.Web;
 using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
@@ -13,7 +9,7 @@ using DataInterfaces;
 using FileBasedData;
 using PocedRepository;
 
-namespace pocedweb
+namespace PocedWeb
 {
     public class MvcApplication : System.Web.HttpApplication
     {

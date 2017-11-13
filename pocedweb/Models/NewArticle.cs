@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-namespace pocedweb.Models
+namespace PocedWeb.Models
 {
     public class NewArticle
     {

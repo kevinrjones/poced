@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+﻿using System.Collections.Generic;
 
-namespace pocedweb.Models
+namespace PocedWeb.Models
 {
     public class Article
     {

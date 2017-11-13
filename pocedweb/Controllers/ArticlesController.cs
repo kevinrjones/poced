@@ -1,14 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Web;
 using System.Web.Mvc;
-using ArticlesService;
 using ArticlesService.Intrfaces;
-using pocedweb.Models;
+using PocedWeb.Models;
 
-namespace pocedweb.Controllers
+namespace PocedWeb.Controllers
 {
     public class ArticlesController : Controller
     {

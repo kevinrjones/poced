@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.27004.2008
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "pocedweb", "pocedweb\pocedweb.csproj", "{00F779FF-DD1A-4544-8099-51F835EB1F95}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PocedWeb", "pocedweb\PocedWeb.csproj", "{00F779FF-DD1A-4544-8099-51F835EB1F95}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataInterfaces", "DataInterfaces\DataInterfaces.csproj", "{5859F660-6B09-4320-8C78-B46BA31B4E1F}"
 EndProject
