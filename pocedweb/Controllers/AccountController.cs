@@ -1,4 +1,7 @@
-﻿using System.Web.Mvc;
+﻿using System.Security.Claims;
+using System.Web;
+using System.Web.Mvc;
+using Microsoft.Owin.Security;
 using PocedWeb.Models;
 
 namespace PocedWeb.Controllers
@@ -17,7 +20,16 @@ namespace PocedWeb.Controllers
         {
             if (model.Username == model.Password)
             {
-                // TODO -- log the user in
+                var ci = new ClaimsIdentity("Cookie");
+                ci.AddClaim(new Claim(ClaimTypes.Name, model.Username));
+
+                var ctx = Request.GetOwinContext();
+                ctx.Authentication.SignIn(ci);
+
+                if (Url.IsLocalUrl(returnUrl))
+                {
+                    return Redirect(returnUrl);
+                }
 
                 return RedirectToAction("Index", "Articles");
             }
@@ -29,7 +41,8 @@ namespace PocedWeb.Controllers
         [Route("Logout")]
         public ActionResult Logout()
         {
-            // TODO -- log the user out
+            var ctx = Request.GetOwinContext();
+            ctx.Authentication.SignOut();
 
             return View();
         }
@@ -38,9 +51,18 @@ namespace PocedWeb.Controllers
         [Route("LoginExternal")]
         public ActionResult LoginExternal(string provider, string returnUrl)
         {
-            // TODO -- send the user to the external provider
-
+            var ctx = Request.GetOwinContext();
+            if (!Url.IsLocalUrl(returnUrl))
+            {
+                returnUrl = "/";
+            }
+            var props = new AuthenticationProperties
+            {
+                RedirectUri = returnUrl
+            };
+            ctx.Authentication.Challenge(props, provider);
             return new HttpUnauthorizedResult();
         }
+
     }
 }

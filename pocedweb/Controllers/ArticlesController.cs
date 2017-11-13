@@ -6,6 +6,8 @@ using PocedWeb.Models;
 
 namespace PocedWeb.Controllers
 {
+    [Authorize]
+
     public class ArticlesController : Controller
     {
         private readonly IArticlesService _articlesService;

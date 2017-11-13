@@ -60,11 +60,11 @@
                     </ul>
                     <ul class="icons rightItem">
                         @*<li id="pagenav_searchicon" class="pagenav_searchicon"><a
-                        id="nav_search" role="button" class="btn btn-default"
-                        aria-label="Left Align" data-toggle="popover"
-                        data-placement="bottom" tabindex='1'> <span
-                            class="glyphicon glyphicon-search" aria-hidden="true"></span>
-                    </a></li>*@
+                                id="nav_search" role="button" class="btn btn-default"
+                                aria-label="Left Align" data-toggle="popover"
+                                data-placement="bottom" tabindex='1'> <span
+                                    class="glyphicon glyphicon-search" aria-hidden="true"></span>
+                            </a></li>*@
                         <li id="pagenav_addarticle">
                             <a id="nav_add" role="button"
                                class="btn btn-default" aria-label="Left Align"
@@ -81,21 +81,22 @@
                                title="" href="#">
                                 <span class="nav-avatar"
                                       style="background-image: url(https://img.readitlater.com/i/lh3.googleusercontent.com/-XdUIqdMkCWA/AAAAAAAAAAI/AAAAAAAAAAA/4252rscbv5M/photo/RS/w80-h80.jpg?&amp;amp;ssl=1);"></span>
-                                <span class="nav-username" th:text="${currentUser?.name}">Bob</span>
-                                @*<span class="nav-username">Kevin</span>*@ <span class="nav-downnotch"></span>
+                                <span class="nav-username">@User.Identity.Name</span>
+                                <span class="nav-downnotch"></span>
                             </a>
                             <div id="pagenav_options_container" class="dropSelector" style="">
-
-                                @*<div class="nav navbar-left" th:if="${currentUser !=null}">
-                                <form class="navbar-form" th:action="@{/account/logout}"
-                                    method="post">
-                                    <div class="input-group">
-                                        <button type="submit" class="button btn-link" th:text="#{logout}">Log Out</button>
+                                @if (Request.IsAuthenticated)
+                                {
+                                    <div class="nav navbar-left">
+                                        @Html.ActionLink("Logout", "Logout", "Account");
                                     </div>
-                                </form>
-                            </div>*@
-
-                                <a></a>
+                                }
+                                else
+                                {
+                                    <div class="nav navbar-left">
+                                        @Html.ActionLink("Login", "Login", "Account");
+                                    </div>
+                                }
                                 <div class="popover-new popover-new-bottomleft">
                                     <div class="popover-new-header">
                                         <a class="popover-new-close" href="#"></a>
@@ -353,11 +354,11 @@
             </div>
 
             @RenderBody()
-            
-            
-        <footer>
-            <div class="wrapper wrapper_full"></div>
-        </footer>
+
+
+            <footer>
+                <div class="wrapper wrapper_full"></div>
+            </footer>
 
         </div>
     </div>
