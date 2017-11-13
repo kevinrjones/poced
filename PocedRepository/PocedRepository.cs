@@ -1,4 +1,5 @@
-﻿using System.Data.Entity.Core.Objects;
+﻿using System.Data.Entity;
+using System.Data.Entity.Core.Objects;
 using System.Linq;
 using Repository;
 
@@ -6,20 +7,20 @@ namespace PocedRepository
 {
     public class PocedRepository<T> : IRepository<T> where T : class
     {
-        protected ObjectContext ObjectContext;
-        protected ObjectSet<T> ObjectSet;
+        protected DbContext ObjectContext;
+        protected DbSet<T> ObjectSet;
 
         public PocedRepository(string connectionString)
         {
-            ObjectContext = new ObjectContext(connectionString);
-            ObjectSet = ObjectContext.CreateObjectSet<T>();
+            ObjectContext = new DbContext(connectionString);
+            ObjectSet = ObjectContext.Set<T>();
         }
 
         public IQueryable<T> Entities => ObjectSet;
 
         public T New()
         {
-            return ObjectSet.CreateObject();
+            return ObjectSet.Create<T>();
         }
 
         public void Add(T entity)
@@ -29,12 +30,12 @@ namespace PocedRepository
 
         public void Create(T entity)
         {
-            ObjectSet.AddObject(entity);
+            ObjectSet.Add(entity);
         }
 
         public void Delete(T entity)
         {
-            ObjectSet.DeleteObject(entity);
+            ObjectSet.Remove(entity);
         }
 
         public void Save()
