@@ -49,6 +49,14 @@
       <Project>{5859F660-6B09-4320-8C78-B46BA31B4E1F}</Project>
       <Name>DataInterfaces</Name>
     </ProjectReference>
+    <ProjectReference Include="..\PocedRepository\PocedRepository.csproj">
+      <Project>{78ACB328-CAF4-4E5E-B99E-EFA6B09E6AB0}</Project>
+      <Name>PocedRepository</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Repository\Repository.csproj">
+      <Project>{0A441152-DB5A-43E4-9192-49C7D904524E}</Project>
+      <Name>Repository</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

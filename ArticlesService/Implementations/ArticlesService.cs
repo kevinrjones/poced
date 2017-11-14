@@ -1,19 +1,20 @@
 using DataInterfaces;
+using PocedRepository;
 
 namespace ArticlesService.Intrfaces
 {
     public class ArticlesService : IArticlesService
     {
-        private readonly IArticlesData _data;
+        private readonly IArticlesRepository _data;
 
-        public ArticlesService(IArticlesData data)
+        public ArticlesService(IArticlesRepository data)
         {
             _data = data;
         }
 
-        public byte[] GetImage(int imageId)
+        public byte[] GetImage(int articleId)
         {
-            return _data.GetImage(imageId);
+            return _data.GetArticle(articleId);
         }
     }
 }

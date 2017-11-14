@@ -2,7 +2,7 @@
 
 namespace PocedRepository
 {
-    public interface IUsersRepository : IRepository<User>
-    {
-    }
+    //public interface IUsersRepository : IRepository<User>
+    //{
+    //}
 }

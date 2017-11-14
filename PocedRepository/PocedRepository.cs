@@ -1,6 +1,7 @@
 ﻿using System.Data.Entity;
 using System.Data.Entity.Core.Objects;
 using System.Linq;
+using PocedRepository.Contexts;
 using Repository;
 
 namespace PocedRepository
@@ -12,7 +13,7 @@ namespace PocedRepository
 
         public PocedRepository(string connectionString)
         {
-            ObjectContext = new DbContext(connectionString);
+            ObjectContext = new PocedContext(connectionString);
             ObjectSet = ObjectContext.Set<T>();
         }
 

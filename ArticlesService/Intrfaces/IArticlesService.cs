@@ -2,6 +2,6 @@
 {
     public interface IArticlesService
     {
-        byte[] GetImage(int imageId);
+        byte[] GetImage(int articleId);
     }
 }

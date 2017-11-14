@@ -15,6 +15,7 @@ namespace PocedWeb.Controllers
         public ArticlesController(IArticlesService articlesService)
         {
             _articlesService = articlesService;
+            _articlesService.GetImage(1);
         }
         // GET: Articles
         [Route("Articles")]

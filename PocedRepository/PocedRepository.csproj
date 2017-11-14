@@ -36,6 +36,12 @@
     <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.AspNet.Identity.Core, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.Identity.Core.2.2.1\lib\net45\Microsoft.AspNet.Identity.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.Identity.EntityFramework, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.Identity.EntityFramework.2.2.1\lib\net45\Microsoft.AspNet.Identity.EntityFramework.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
@@ -49,44 +55,19 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Article.cs">
-      <DependentUpon>PocedModel.tt</DependentUpon>
-    </Compile>
     <Compile Include="ArticlesRepository.cs" />
+    <Compile Include="Contexts\PocedContext.cs" />
+    <Compile Include="Entities\ApplicationUser.cs" />
+    <Compile Include="Entities\Article.cs" />
     <Compile Include="IUsersRepository.cs" />
-    <Compile Include="PocedModel.Context.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>PocedModel.Context.tt</DependentUpon>
-    </Compile>
-    <Compile Include="PocedModel.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>PocedModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="PocedModel.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>PocedModel.edmx</DependentUpon>
-    </Compile>
     <Compile Include="PocedRepository.cs" />
     <Compile Include="IArticlesRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="User.cs">
-      <DependentUpon>PocedModel.tt</DependentUpon>
-    </Compile>
     <Compile Include="UsersRepository.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.Config" />
-    <EntityDeploy Include="PocedModel.edmx">
-      <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>PocedModel.Designer.cs</LastGenOutput>
-    </EntityDeploy>
     <None Include="packages.config" />
-    <None Include="PocedModel.edmx.diagram">
-      <DependentUpon>PocedModel.edmx</DependentUpon>
-    </None>
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
@@ -96,18 +77,6 @@
       <Project>{0a441152-db5a-43e4-9192-49c7d904524e}</Project>
       <Name>Repository</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="PocedModel.Context.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>PocedModel.edmx</DependentUpon>
-      <LastGenOutput>PocedModel.Context.cs</LastGenOutput>
-    </Content>
-    <Content Include="PocedModel.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>PocedModel.edmx</DependentUpon>
-      <LastGenOutput>PocedModel.cs</LastGenOutput>
-    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

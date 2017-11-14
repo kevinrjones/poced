@@ -36,7 +36,7 @@ namespace PocedWeb
             builder.RegisterAssemblyTypes(repositoryAssemblies).AsImplementedInterfaces();
             builder.RegisterType<ArticlesData>().As<IArticlesData>();
 
-            builder.RegisterType<UsersRepository>().As<IUsersRepository>().WithParameter(new NamedParameter("connectionString", connectionString));            
+            //builder.RegisterType<UsersRepository>().As<IUsersRepository>().WithParameter(new NamedParameter("connectionString", connectionString));            
             builder.RegisterType<ArticlesRepository>().As<IArticlesRepository>().WithParameter(new NamedParameter("connectionString", connectionString));
 
             builder.RegisterFilterProvider();
