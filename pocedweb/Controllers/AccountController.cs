@@ -71,6 +71,7 @@ namespace PocedWeb.Controllers
         }
 
         [HttpPost]
+        [Route("Account/Register")]
         public ActionResult Register(RegisterModel model)
         {
             if (ModelState.IsValid)
@@ -113,6 +114,7 @@ namespace PocedWeb.Controllers
         }
 
         [HttpPost]
+        [Route("Account/RegisterExternal")]
         public async Task<ActionResult> RegisterExternal(RegisterExternalModel model)
         {
             var ctx = Request.GetOwinContext();
@@ -142,6 +144,8 @@ namespace PocedWeb.Controllers
             return View();
         }
 
+
+        [Route("Account/RegisterSuccess")]
         public ActionResult RegisterSuccess()
         {
             return View();

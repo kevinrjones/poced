@@ -28,7 +28,7 @@ namespace PocedServices.Implementations
 
         public ClaimsIdentity GetUserClaims(string provider, string providerId)
         {            
-            return _usersRepository.CreateIdentity(provider, provider, "Cookie");            
+            return _usersRepository.CreateIdentity(provider, providerId, "Cookie");            
         }
 
         public bool AddLogin(string userId, string provider, string providerId)
