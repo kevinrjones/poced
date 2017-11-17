@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.Owin;
+using Microsoft.Owin.Security;
 using Microsoft.Owin.Security.Cookies;
 using Microsoft.Owin.Security.Facebook;
 using Microsoft.Owin.Security.Google;
@@ -22,24 +23,21 @@ namespace PocedWeb
                 LoginPath = new PathString("/login")
             });
 
+            app.UseCookieAuthentication(new CookieAuthenticationOptions
+            {
+                AuthenticationType = "ExternalCookie",
+                AuthenticationMode = AuthenticationMode.Passive,
+                ExpireTimeSpan = TimeSpan.FromMinutes(5)
+            });
+
             var google = new GoogleOAuth2AuthenticationOptions
             {
                 AuthenticationType = "Google",
-                ClientId = "585966796531-o2h4on55tnjm6g8hsarotr5dddm5bsf3.apps.googleusercontent.com",
-                ClientSecret = "VwgqtwyZ9hmbAqBuHELywPDE",
-                SignInAsAuthenticationType = "Cookie"
+                ClientId = "656376280253-dj3e3qqhmbcp4oir5gfk8btm17v8b9om.apps.googleusercontent.com",
+                ClientSecret = "HvijClsL9XzNeVICelRuWc5W",
+                SignInAsAuthenticationType = "ExternalCookie"
             };
             app.UseGoogleAuthentication(google);
-
-            var facebook = new FacebookAuthenticationOptions
-            {
-                AuthenticationType = "Facebook",
-                AppId = "1426662680922180",
-                AppSecret = "8870f6bd80788834f2a9092503b95c89",
-                SignInAsAuthenticationType = "Cookie"
-            };
-            app.UseFacebookAuthentication(facebook);
-
         }
     }
 

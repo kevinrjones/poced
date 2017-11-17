@@ -1,7 +1,7 @@
-using DataInterfaces;
 using PocedRepository;
+using PocedServices.Intrfaces;
 
-namespace ArticlesService.Intrfaces
+namespace PocedServices.Implementations
 {
     public class ArticlesService : IArticlesService
     {

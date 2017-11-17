@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Data.Entity;
 using System.Linq;
 using System.Text;
@@ -11,9 +12,13 @@ namespace PocedRepository.Contexts
 {
     class PocedContext : IdentityDbContext
     {
-        public PocedContext(string connectionString) : base(connectionString)
+        public PocedContext() : base(ConfigurationManager.ConnectionStrings["PocedEntities"].ConnectionString)
         {
             
+        }
+        public PocedContext(string connectionString) : base(connectionString)
+        {
+
         }
         public DbSet<Article> Articles { get; set; }
     }

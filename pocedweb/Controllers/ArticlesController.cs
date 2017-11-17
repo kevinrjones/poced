@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 using System.Web.Mvc;
-using ArticlesService.Intrfaces;
+using PocedServices.Intrfaces;
 using PocedWeb.Models;
 
 namespace PocedWeb.Controllers
@@ -33,13 +33,16 @@ namespace PocedWeb.Controllers
         // calculate $($("#queue .item")[0]).height()
         [Route("Articles/Image/{id}")]
 
-        public FileStreamResult Image(int id)
+        public ActionResult Image(int id)
         {
             var imageByteArray = _articlesService.GetImage(id);
-            MemoryStream stream = new MemoryStream(imageByteArray);
+            if (imageByteArray != null)
+            {
+                MemoryStream stream = new MemoryStream(imageByteArray);
 
-            return new FileStreamResult(stream, "image/png");
-
+                return new FileStreamResult(stream, "image/png");
+            }
+            return new HttpNotFoundResult();
         }
 
         [Route("Articles/New")]

@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using IdentityShared;
 
 namespace PocedRepository.Entities
 {
@@ -19,7 +20,7 @@ namespace PocedRepository.Entities
         public string UserId { get; set; }
 
         [ForeignKey("UserId")]
-        public virtual ApplicationUser User { get; set; }
+        public virtual PocedUser User { get; set; }
     }
 
 

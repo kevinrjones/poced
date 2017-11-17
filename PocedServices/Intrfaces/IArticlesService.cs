@@ -1,4 +1,4 @@
-﻿namespace ArticlesService.Intrfaces
+﻿namespace PocedServices.Intrfaces
 {
     public interface IArticlesService
     {

@@ -82,6 +82,7 @@
     <Reference Include="Microsoft.ApplicationInsights, Version=2.4.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.ApplicationInsights.2.4.0\lib\net46\Microsoft.ApplicationInsights.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.AspNet.Identity.EntityFramework, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35" />
     <Reference Include="Microsoft.AspNet.TelemetryCorrelation, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNet.TelemetryCorrelation.1.0.0\lib\net45\Microsoft.AspNet.TelemetryCorrelation.dll</HintPath>
     </Reference>
@@ -189,6 +190,7 @@
     <Compile Include="Models\Article.cs" />
     <Compile Include="Models\LoginModel.cs" />
     <Compile Include="Models\NewArticle.cs" />
+    <Compile Include="Models\RegisterModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
@@ -204,6 +206,9 @@
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\facebook.png" />
+    <Content Include="Content\google.png" />
+    <Content Include="Content\logo.png" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
@@ -259,6 +264,10 @@
     <Content Include="Views\Articles\New.cshtml" />
     <Content Include="Views\Account\Login.cshtml" />
     <Content Include="Views\Account\Logout.cshtml" />
+    <Content Include="Views\Account\Profile.cshtml" />
+    <Content Include="Views\Account\Register.cshtml" />
+    <Content Include="Views\Account\RegisterExternal.cshtml" />
+    <Content Include="Views\Account\RegisterSuccess.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -269,10 +278,6 @@
     <Content Include="Scripts\jquery-3.2.1.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\ArticlesService\ArticlesService.csproj">
-      <Project>{CDEAADC1-DB02-47BC-853A-D367F3C4CB4F}</Project>
-      <Name>ArticlesService</Name>
-    </ProjectReference>
     <ProjectReference Include="..\DataInterfaces\DataInterfaces.csproj">
       <Project>{5859F660-6B09-4320-8C78-B46BA31B4E1F}</Project>
       <Name>DataInterfaces</Name>
@@ -281,9 +286,17 @@
       <Project>{F5A9EC20-1C54-4FE0-92BE-0CB3F2B303C7}</Project>
       <Name>FileBasedData</Name>
     </ProjectReference>
+    <ProjectReference Include="..\IdentityShared\IdentityShared.csproj">
+      <Project>{9D983D17-F874-43E3-9536-5FC72B4D6013}</Project>
+      <Name>IdentityShared</Name>
+    </ProjectReference>
     <ProjectReference Include="..\PocedRepository\PocedRepository.csproj">
       <Project>{78ACB328-CAF4-4E5E-B99E-EFA6B09E6AB0}</Project>
       <Name>PocedRepository</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\PocedServices\PocedServices.csproj">
+      <Project>{cdeaadc1-db02-47bc-853a-d367f3c4cb4f}</Project>
+      <Name>PocedServices</Name>
     </ProjectReference>
     <ProjectReference Include="..\Repository\Repository.csproj">
       <Project>{0A441152-DB5A-43E4-9192-49C7D904524E}</Project>

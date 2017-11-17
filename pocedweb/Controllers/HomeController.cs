@@ -2,6 +2,7 @@
 
 namespace PocedWeb.Controllers
 {
+    [Authorize]
     public class HomeController : Controller
     {
         [Route("Home/About")]

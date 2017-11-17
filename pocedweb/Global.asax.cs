@@ -32,12 +32,13 @@ namespace PocedWeb
             var connectionString = ConfigurationManager.ConnectionStrings["pocedEntities"].ConnectionString;
             builder.RegisterControllers(typeof(MvcApplication).Assembly);
 
-            var repositoryAssemblies = Assembly.Load("ArticlesService");
+            var repositoryAssemblies = Assembly.Load("PocedServices");
             builder.RegisterAssemblyTypes(repositoryAssemblies).AsImplementedInterfaces();
             builder.RegisterType<ArticlesData>().As<IArticlesData>();
 
             //builder.RegisterType<UsersRepository>().As<IUsersRepository>().WithParameter(new NamedParameter("connectionString", connectionString));            
             builder.RegisterType<ArticlesRepository>().As<IArticlesRepository>().WithParameter(new NamedParameter("connectionString", connectionString));
+            builder.RegisterType<UsersRepository>().As<IUsersRepository>().WithParameter(new NamedParameter("connectionString", connectionString));
 
             builder.RegisterFilterProvider();
         }
