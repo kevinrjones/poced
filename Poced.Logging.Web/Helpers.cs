@@ -68,7 +68,7 @@ namespace Poced.Logging.Web
             logger.WriteDiagnostic(diagInfo);
         }
 
-        public static void LogWebError(IPocedLogger logger, string product, string layer, Exception ex)
+        public static void LogWebError(this IPocedLogger logger, string product, string layer, Exception ex)
         {
             string userId, userName, location;
             var webInfo = GetWebFloggingData(out userId, out userName, out location);

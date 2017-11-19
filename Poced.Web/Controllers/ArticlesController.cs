@@ -8,7 +8,7 @@ using Poced.Web.Models;
 namespace Poced.Web.Controllers
 {
     [Authorize]
-    [TrackUsage("Poced", "Web", "Articles")]
+    [TrackUsage(Constants.ProductName, Constants.Layer, "Articles")]
     public class ArticlesController : Controller
     {
         private readonly IArticlesService _articlesService;
@@ -21,7 +21,7 @@ namespace Poced.Web.Controllers
         // GET: Articles
         [Route("Articles")]
         [Route("")]
-        [TrackPerformance("Poced","Web")]
+        [TrackPerformance(Constants.ProductName, Constants.Layer)]
         public ActionResult Index()
         {
             var articles = new List<Article>
