@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{F5A9EC20-1C54-4FE0-92BE-0CB3F2B303C7}</ProjectGuid>
+    <ProjectGuid>{F6EF1286-7D10-4649-9BA3-2D018AA093E1}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>FileBasedData</RootNamespace>
-    <AssemblyName>FileBasedData</AssemblyName>
+    <RootNamespace>Poced.Logging</RootNamespace>
+    <AssemblyName>Poced.Logging</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -30,9 +30,11 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Serilog, Version=2.0.0.0, Culture=neutral, PublicKeyToken=24c2f752a8e58a10, processorArchitecture=MSIL">
+      <HintPath>..\packages\Serilog.2.5.0\lib\net46\Serilog.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Drawing" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -41,23 +43,21 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ArticlesData.cs" />
+    <Compile Include="PerfTracker.cs" />
+    <Compile Include="PocedSerlogLogger.cs" />
+    <Compile Include="IPocedLogger.cs" />
+    <Compile Include="LogDetail.cs" />
+    <Compile Include="LogLevel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\DataInterfaces\Poced.DataInterfaces.csproj">
-      <Project>{5859F660-6B09-4320-8C78-B46BA31B4E1F}</Project>
-      <Name>Poced.DataInterfaces</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\PocedRepository\Poced.Repository.csproj">
-      <Project>{78ACB328-CAF4-4E5E-B99E-EFA6B09E6AB0}</Project>
-      <Name>Poced.Repository</Name>
-    </ProjectReference>
+    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="images\1.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
+    <ProjectReference Include="..\Poced.Configuration\Poced.Configuration.csproj">
+      <Project>{FA3A00C7-F3A3-4A9D-A28C-834B8F297327}</Project>
+      <Name>Poced.Configuration</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
