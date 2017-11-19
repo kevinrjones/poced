@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
@@ -100,7 +101,7 @@ namespace PocedWeb.Controllers
             var provider = idClaim.Issuer;
             var providerId = idClaim.Value;
 
-            var claimsIdentity = _userService.GetUserClaims(provider, providerId);
+            var claimsIdentity = _userService.CreateUserIdentity(provider, providerId);
             if (claimsIdentity != null)
             {
                 ctx.Authentication.SignIn(claimsIdentity);
@@ -131,8 +132,8 @@ namespace PocedWeb.Controllers
                 if (user != null)
                 {
                     ctx.Authentication.SignOut("ExternalCookie");
-                    
-                    var ci =_userService.CreateIdentity(user, "Cookie");
+
+                    var ci = _userService.CreateIdentity(user, "Cookie");
                     ctx.Authentication.SignIn(ci);
 
                     return RedirectToAction("RegisterSuccess");
@@ -151,52 +152,54 @@ namespace PocedWeb.Controllers
             return View();
         }
 
-        //public ActionResult Profile()
-        //{
-        //    var user = userManager.FindByName(User.Identity.Name);
-        //    var claims = userManager.GetClaims(user.Id);
-        //    var vm = new ProfileModel(claims);
-        //    return View("Profile", vm);
-        //}
+        [Route("Account/Profile")]
+        public ActionResult Profile()
+        {
+            var user = _userService.FindByName(User.Identity.Name);
+            IList<Claim> claims = _userService.GetClaims(user.Id);
+            var vm = new ProfileModel(claims);
+            return View("Profile", vm);
+        }
 
-        //[HttpPost]
-        //public ActionResult UpdateProfile(ProfileModel model)
-        //{
-        //    var user = userManager.FindByName(User.Identity.Name);
-        //    var claims = userManager.GetClaims(user.Id);
+        [HttpPost]
+        [Route("Account/UpdateProfile")]
+        public ActionResult UpdateProfile(ProfileModel model)
+        {
+            var user = _userService.FindByName(User.Identity.Name);
+            var claims = _userService.GetClaims(user.Id);
 
-        //    var givenName = claims.FirstOrDefault(x => x.Type == ClaimTypes.GivenName);
-        //    if (givenName != null)
-        //    {
-        //        var result = userManager.RemoveClaim(user.Id, givenName);
-        //        if (!result.Succeeded) ModelState.AddModelError("", result.Errors.First());
-        //    }
+            var givenName = claims.FirstOrDefault(x => x.Type == ClaimTypes.GivenName);
+            if (givenName != null)
+            {
+                bool result = _userService.RemoveClaim(user.Id, givenName);
+                if (!result) ModelState.AddModelError("", $"Unable to remove GivenName claim");
+            }
 
-        //    var surname = claims.FirstOrDefault(x => x.Type == ClaimTypes.Surname);
-        //    if (surname != null)
-        //    {
-        //        var result = userManager.RemoveClaim(user.Id, surname);
-        //        if (!result.Succeeded) ModelState.AddModelError("", result.Errors.First());
-        //    }
+            var surname = claims.FirstOrDefault(x => x.Type == ClaimTypes.Surname);
+            if (surname != null)
+            {
+                var result = _userService.RemoveClaim(user.Id, surname);
+                if (!result) ModelState.AddModelError("", $"Unable to remove Surame claim");
+            }
 
-        //    if (!String.IsNullOrWhiteSpace(model.First))
-        //    {
-        //        var result = userManager.AddClaim(user.Id, new Claim(ClaimTypes.GivenName, model.First));
-        //        if (!result.Succeeded) ModelState.AddModelError("", result.Errors.First());
-        //    }
-        //    if (!String.IsNullOrWhiteSpace(model.Last))
-        //    {
-        //        var result = userManager.AddClaim(user.Id, new Claim(ClaimTypes.Surname, model.Last));
-        //        if (!result.Succeeded) ModelState.AddModelError("", result.Errors.First());
-        //    }
+            if (!String.IsNullOrWhiteSpace(model.First))
+            {
+                bool result = _userService.AddClaim(user.Id, new Claim(ClaimTypes.GivenName, model.First));
+                if (!result) ModelState.AddModelError("", $"Unable to add GivenName claim");
+            }
+            if (!String.IsNullOrWhiteSpace(model.Last))
+            {
+                var result = _userService.AddClaim(user.Id, new Claim(ClaimTypes.Surname, model.Last));
+                if (!result) ModelState.AddModelError("", $"Unable to add GivenName claim");
+            }
 
-        //    var ci = userManager.CreateIdentity(user, "Cookie");
-        //    var ctx = Request.GetOwinContext();
-        //    ctx.Authentication.SignIn(ci);
+            var ci = _userService.CreateIdentity(user, "Cookie");
+            var ctx = Request.GetOwinContext();
+            ctx.Authentication.SignIn(ci);
 
-        //    if (ModelState.IsValid) ViewData["Success"] = true;
-        //    return Profile();
-        //}
+            if (ModelState.IsValid) ViewData["Success"] = true;
+            return Profile();
+        }
     }
 
 }

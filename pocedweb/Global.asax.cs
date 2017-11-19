@@ -5,9 +5,12 @@ using System.Web.Optimization;
 using System.Web.Routing;
 using Autofac;
 using Autofac.Integration.Mvc;
+using Configuration;
 using DataInterfaces;
 using FileBasedData;
+using Logging;
 using PocedRepository;
+using Serilog;
 
 namespace PocedWeb
 {
@@ -29,6 +32,11 @@ namespace PocedWeb
 
         private void RegisterTypes(ContainerBuilder builder)
         {
+            var perfLogger = new LoggerConfiguration().CreateLogger();
+            var usageLogger = new LoggerConfiguration().CreateLogger();
+            var errorLogger = new LoggerConfiguration().CreateLogger();
+            var diagnosticLogger = new LoggerConfiguration().CreateLogger();
+
             var connectionString = ConfigurationManager.ConnectionStrings["pocedEntities"].ConnectionString;
             builder.RegisterControllers(typeof(MvcApplication).Assembly);
 
@@ -39,6 +47,14 @@ namespace PocedWeb
             //builder.RegisterType<UsersRepository>().As<IUsersRepository>().WithParameter(new NamedParameter("connectionString", connectionString));            
             builder.RegisterType<ArticlesRepository>().As<IArticlesRepository>().WithParameter(new NamedParameter("connectionString", connectionString));
             builder.RegisterType<UsersRepository>().As<IUsersRepository>().WithParameter(new NamedParameter("connectionString", connectionString));
+            builder.RegisterType<AppConfiguration>().As<IConfiguration>();
+
+
+            // todo: autofac named parameters with registered values
+            builder.RegisterType<PocedSerlogLogger>().As<IPocedLogger>().WithParameter(new NamedParameter("perfLogger", perfLogger))
+                .WithParameter(new NamedParameter("usageLogger", usageLogger))
+                .WithParameter(new NamedParameter("usageLogger", errorLogger))
+                .WithParameter(new NamedParameter("diagnosticLogger", diagnosticLogger));
 
             builder.RegisterFilterProvider();
         }

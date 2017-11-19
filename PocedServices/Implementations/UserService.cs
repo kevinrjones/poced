@@ -26,9 +26,9 @@ namespace PocedServices.Implementations
             return _usersRepository.Create(userName, password);
         }
 
-        public ClaimsIdentity GetUserClaims(string provider, string providerId)
-        {            
-            return _usersRepository.CreateIdentity(provider, providerId, "Cookie");            
+        public ClaimsIdentity CreateUserIdentity(string provider, string providerId)
+        {
+            return _usersRepository.CreateIdentity(provider, providerId, "Cookie");
         }
 
         public bool AddLogin(string userId, string provider, string providerId)
@@ -41,7 +41,28 @@ namespace PocedServices.Implementations
             return _usersRepository.CreateIdentity(user, authenticationName);
         }
 
-        public PocedUser CreateAndLoginUser(string username, string provider, string providerId, IEnumerable<Claim> claims)
+        public PocedUser FindByName(string userName)
+        {
+            return _usersRepository.FindByName(userName);
+        }
+
+        public IList<Claim> GetClaims(string userId)
+        {
+            return _usersRepository.GetClaims(userId);
+        }
+
+        public bool RemoveClaim(string userId, Claim claim)
+        {
+            return _usersRepository.RemoveClaim(userId, claim);
+        }
+
+        public bool AddClaim(string userId, Claim claim)
+        {
+            return _usersRepository.AddClaim(userId, claim);
+        }
+
+        public PocedUser CreateAndLoginUser(string username, string provider, string providerId,
+            IEnumerable<Claim> claims)
         {
             var user = _usersRepository.Create(username);
             if (user != null)
@@ -54,8 +75,7 @@ namespace PocedServices.Implementations
                     {
                         _usersRepository.AddClaim(user.Id, claim);
                     }
-
-                }                
+                }
             }
             return user;
         }

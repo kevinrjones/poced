@@ -66,6 +66,7 @@
     <Compile Include="Contexts\PocedContext.cs" />
     <Compile Include="Contexts\PocedUserManager.cs" />
     <Compile Include="Entities\Article.cs" />
+    <Compile Include="Extensions\LoggingExtensions.cs" />
     <Compile Include="IUsersRepository.cs" />
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="PocedRepository.cs" />
@@ -84,6 +85,10 @@
     <ProjectReference Include="..\IdentityShared\IdentityShared.csproj">
       <Project>{9D983D17-F874-43E3-9536-5FC72B4D6013}</Project>
       <Name>IdentityShared</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Logging\Logging.csproj">
+      <Project>{f6ef1286-7d10-4649-9ba3-2d018aa093e1}</Project>
+      <Name>Logging</Name>
     </ProjectReference>
     <ProjectReference Include="..\Repository\Repository.csproj">
       <Project>{0a441152-db5a-43e4-9192-49c7d904524e}</Project>
