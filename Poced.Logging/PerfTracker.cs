@@ -44,7 +44,7 @@ namespace Poced.Logging
             }
         }
 
-        protected void Stop()
+        public void Stop()
         {
             _sw.Stop();
             _infoToLog.EllapsedMilliseconds = _sw.ElapsedMilliseconds;

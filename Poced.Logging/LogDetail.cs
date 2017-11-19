@@ -23,6 +23,6 @@ namespace Poced.Logging
         public Exception Exception { get; set; }
         public string CorreletaionId { get; set; }
         public Dictionary<string,object> AdditionalInfo { get; set; }
-
+        public string CorrelationId { get; set; }
     }
 }

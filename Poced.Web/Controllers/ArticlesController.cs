@@ -1,13 +1,14 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 using System.Web.Mvc;
+using Poced.Logging.Web.Attributes;
 using Poced.Services.Intrfaces;
 using Poced.Web.Models;
 
 namespace Poced.Web.Controllers
 {
     [Authorize]
-
+    [TrackUsage("Poced", "Web", "Articles")]
     public class ArticlesController : Controller
     {
         private readonly IArticlesService _articlesService;
@@ -20,6 +21,7 @@ namespace Poced.Web.Controllers
         // GET: Articles
         [Route("Articles")]
         [Route("")]
+        [TrackPerformance("Poced","Web")]
         public ActionResult Index()
         {
             var articles = new List<Article>

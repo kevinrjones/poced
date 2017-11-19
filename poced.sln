@@ -19,6 +19,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Poced.Web", "Poced.Web\Poce
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Poced.Services", "Poced.Services\Poced.Services.csproj", "{CDEAADC1-DB02-47BC-853A-D367F3C4CB4F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Poced.Logging.Web", "Poced.Logging.Web\Poced.Logging.Web.csproj", "{2B8FC5D9-35DA-47F7-B81B-1E75E7E3F9CA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -57,6 +59,10 @@ Global
 		{CDEAADC1-DB02-47BC-853A-D367F3C4CB4F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CDEAADC1-DB02-47BC-853A-D367F3C4CB4F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CDEAADC1-DB02-47BC-853A-D367F3C4CB4F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2B8FC5D9-35DA-47F7-B81B-1E75E7E3F9CA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2B8FC5D9-35DA-47F7-B81B-1E75E7E3F9CA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2B8FC5D9-35DA-47F7-B81B-1E75E7E3F9CA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2B8FC5D9-35DA-47F7-B81B-1E75E7E3F9CA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

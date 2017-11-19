@@ -21,9 +21,9 @@ namespace Poced.Web
             var container = builder.Build();
 
             DependencyResolver.SetResolver(new AutofacDependencyResolver(container));
+            var logger = container.Resolve<IPocedLogger>();
 
-
-            FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
+            FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters, logger);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
         }
@@ -38,7 +38,7 @@ namespace Poced.Web
             var connectionString = ConfigurationManager.ConnectionStrings["pocedEntities"].ConnectionString;
             builder.RegisterControllers(typeof(MvcApplication).Assembly);
 
-            var repositoryAssemblies = Assembly.Load("PocedServices");
+            var repositoryAssemblies = Assembly.Load("Poced.Services");
             builder.RegisterAssemblyTypes(repositoryAssemblies).AsImplementedInterfaces();
 //            builder.RegisterType<ArticlesData>().As<IArticlesData>();
 
@@ -51,8 +51,9 @@ namespace Poced.Web
             // todo: autofac named parameters with registered values
             builder.RegisterType<PocedSerlogLogger>().As<IPocedLogger>().WithParameter(new NamedParameter("perfLogger", perfLogger))
                 .WithParameter(new NamedParameter("usageLogger", usageLogger))
-                .WithParameter(new NamedParameter("usageLogger", errorLogger))
-                .WithParameter(new NamedParameter("diagnosticLogger", diagnosticLogger));
+                .WithParameter(new NamedParameter("errorLogger", errorLogger))
+                .WithParameter(new NamedParameter("diagnosticLogger", diagnosticLogger))
+                .SingleInstance();
 
             builder.RegisterFilterProvider();
         }

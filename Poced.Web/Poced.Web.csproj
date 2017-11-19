@@ -291,9 +291,17 @@
       <Project>{9D983D17-F874-43E3-9536-5FC72B4D6013}</Project>
       <Name>Poced.Identity.Shared</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Poced.Logging.Web\Poced.Logging.Web.csproj">
+      <Project>{2B8FC5D9-35DA-47F7-B81B-1E75E7E3F9CA}</Project>
+      <Name>Poced.Logging.Web</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Poced.Logging\Poced.Logging.csproj">
       <Project>{F6EF1286-7D10-4649-9BA3-2D018AA093E1}</Project>
       <Name>Poced.Logging</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Poced.RepositoryInterfaces\Poced.RepositoryInterfaces.csproj">
+      <Project>{0A441152-DB5A-43E4-9192-49C7D904524E}</Project>
+      <Name>Poced.RepositoryInterfaces</Name>
     </ProjectReference>
     <ProjectReference Include="..\Poced.Repository\Poced.Repository.csproj">
       <Project>{78ACB328-CAF4-4E5E-B99E-EFA6B09E6AB0}</Project>
