@@ -1,11 +1,11 @@
-﻿using System.Data.Entity;
-using System.Linq;
+﻿using System.Linq;
+using Microsoft.EntityFrameworkCore;
 using Poced.Repository.Contexts;
 using Poced.RepositoryInterfaces;
 
 namespace Poced.Repository
 {
-    public class PocedRepository<T> : IRepository<T> where T : class
+    public class PocedRepository<T> : IRepository<T> where T : class, new()
     {
         protected DbContext DbContext;
         protected DbSet<T> DbSet;
@@ -20,7 +20,7 @@ namespace Poced.Repository
 
         public T New()
         {
-            return DbSet.Create<T>();
+            return new T();
         }
 
         public void Add(T entity)

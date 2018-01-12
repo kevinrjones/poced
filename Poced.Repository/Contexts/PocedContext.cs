@@ -1,19 +1,30 @@
 ﻿using System.Configuration;
-using System.Data.Entity;
-using Microsoft.AspNet.Identity.EntityFramework;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using Poced.Repository.Entities;
 
 namespace Poced.Repository.Contexts
 {
     class PocedContext : IdentityDbContext
     {
-        public PocedContext() : base(ConfigurationManager.ConnectionStrings["PocedEntities"].ConnectionString)
+        // todo: Call base class
+        // todo: Get connection string from appsetting.json (IOptions?)
+        // todo:    services.AddDbContext<SchoolContext>(options =>
+        //     options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+
+
+        public PocedContext() : this("")
         {
             
         }
-        public PocedContext(string connectionString) : base(connectionString)
+        public PocedContext(string connectionString) 
         {
 
+        }
+
+        public PocedContext(DbContextOptions<PocedContext> options) : base (options)
+        {
+            
         }
         public DbSet<Article> Articles { get; set; }
     }

@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Security.Claims;
-using Microsoft.AspNet.Identity;
+using Microsoft.AspNetCore.Identity;
 using Poced.Identity.Shared;
 using Poced.Repository.Contexts;
 
@@ -12,7 +12,7 @@ namespace Poced.Repository
 
         public UsersRepository(string connectionString) : base(connectionString)
         {
-            pocedUserManager = new PocedUserManager(connectionString);
+            pocedUserManager = new PocedUserManager();
         }
 
         public bool AddLogin(string userId, string provider, string providerId)

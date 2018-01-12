@@ -9,7 +9,9 @@ namespace Poced.Configuration
     {
         public string GetConfigurationValue(string name)
         {
-            return ConfigurationManager.AppSettings[name];
+            //todo: replace with BP code
+            return "";
+            //return ConfigurationManager.AppSettings[name];
         }
 
     }

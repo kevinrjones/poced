@@ -4,8 +4,8 @@ using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using System.Web;
-using System.Web.Mvc;
-using Microsoft.Owin.Security;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Mvc;
 using Poced.Services.Intrfaces;
 using Poced.Web.Models;
 
@@ -68,7 +68,7 @@ namespace Poced.Web.Controllers
                 RedirectUri = "/ExternalCallback"
             };
             ctx.Authentication.Challenge(props, provider);
-            return new HttpUnauthorizedResult();
+            return new UnauthorizedResult();
         }
 
         [HttpPost]

@@ -5,7 +5,7 @@ namespace Poced.Repository.Extensions
 {
     public static class LoggingExtensions
     {
-        public static LogDetail CreateFlogDetail(string message, string serviceName, Exception ex)
+        public static LogDetail CreateLogDetail(string message, string serviceName, Exception ex)
         {
             return new LogDetail
             {

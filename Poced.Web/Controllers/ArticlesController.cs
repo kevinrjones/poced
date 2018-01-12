@@ -1,27 +1,28 @@
 ﻿using System.Collections.Generic;
 using System.IO;
-using System.Web.Mvc;
-using Poced.Logging.Web.Attributes;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Poced.Logging;
+using Poced.Logging.Web;
 using Poced.Services.Intrfaces;
 using Poced.Web.Models;
 
 namespace Poced.Web.Controllers
 {
     [Authorize]
-    [TrackUsage(Constants.ProductName, Constants.Layer, "Articles")]
     public class ArticlesController : Controller
     {
+        private readonly IPocedWebLogger _logger;
         private readonly IArticlesService _articlesService;
 
-        public ArticlesController(IArticlesService articlesService)
+        public ArticlesController(IPocedWebLogger logger, IArticlesService articlesService)
         {
+            _logger = logger;
             _articlesService = articlesService;
-            _articlesService.GetImage(1);
         }
         // GET: Articles
         [Route("Articles")]
         [Route("")]
-        [TrackPerformance(Constants.ProductName, Constants.Layer)]
         public ActionResult Index()
         {
             var articles = new List<Article>
@@ -44,7 +45,7 @@ namespace Poced.Web.Controllers
 
                 return new FileStreamResult(stream, "image/png");
             }
-            return new HttpNotFoundResult();
+            return NotFound();
         }
 
         [Route("Articles/New")]
