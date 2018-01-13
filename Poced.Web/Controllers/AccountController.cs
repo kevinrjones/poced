@@ -153,7 +153,7 @@ namespace Poced.Web.Controllers
         }
 
         [Route("Account/Profile")]
-        public new ActionResult Profile()
+        public ActionResult Profile()
         {
             var user = _userService.FindByName(User.Identity.Name);
             IList<Claim> claims = _userService.GetClaims(user.Id);

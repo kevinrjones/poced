@@ -7,12 +7,12 @@ namespace Poced.Repository
 {
     public class PocedRepository<T> : IRepository<T> where T : class, new()
     {
-        protected DbContext DbContext;
+        protected PocedDbContext DbContext;
         protected DbSet<T> DbSet;
 
-        public PocedRepository(string connectionString)
+        public PocedRepository(PocedDbContext dbContext)
         {
-            DbContext = new PocedContext(connectionString);
+            DbContext = dbContext;
             DbSet = DbContext.Set<T>();
         }
 

@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
+using Microsoft.AspNetCore.Identity;
 using Poced.Identity.Shared;
 using Poced.Repository;
 using Poced.Services.Intrfaces;
@@ -21,7 +22,7 @@ namespace Poced.Services.Implementations
             return _usersRepository.Create(userName, password);
         }
 
-        public ClaimsIdentity CreateUserIdentity(string provider, string providerId)
+        public IdentityResult CreateUserIdentity(string provider, string providerId)
         {
             return _usersRepository.CreateIdentity(provider, providerId, "Cookie");
         }
@@ -31,7 +32,7 @@ namespace Poced.Services.Implementations
             return _usersRepository.AddLogin(userId, provider, providerId);
         }
 
-        public ClaimsIdentity CreateIdentity(PocedUser user, string authenticationName)
+        public IdentityResult CreateIdentity(PocedUser user, string authenticationName)
         {
             return _usersRepository.CreateIdentity(user, authenticationName);
         }

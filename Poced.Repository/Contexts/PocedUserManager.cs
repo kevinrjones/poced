@@ -12,7 +12,7 @@ namespace Poced.Repository.Contexts
     {
 //        public PocedUserManager(string connectionString) : base(
 //            new UserStore<PocedUser>(
-//                new PocedContext(connectionString)))
+//                new PocedDbContext(connectionString)))
 //        {
 //        }
 

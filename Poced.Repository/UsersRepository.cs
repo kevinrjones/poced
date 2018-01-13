@@ -10,20 +10,22 @@ namespace Poced.Repository
     {
         private readonly PocedUserManager pocedUserManager;
 
-        public UsersRepository(string connectionString) : base(connectionString)
+        public UsersRepository(PocedUserManager userManager, PocedDbContext dbContext) : base(dbContext)
         {
-            pocedUserManager = new PocedUserManager();
+            pocedUserManager = userManager;
         }
 
         public bool AddLogin(string userId, string provider, string providerId)
         {
-            var result = pocedUserManager.AddLogin(userId, new UserLoginInfo(provider, providerId));
+            var pocedUser = new PocedUser { Id = userId };
+            var result = pocedUserManager.AddLoginAsync(pocedUser, new UserLoginInfo(provider, providerId, "")).Result;
             return result == IdentityResult.Success;
         }
 
         public bool AddClaim(string userId, Claim claim)
         {
-            var result = pocedUserManager.AddClaim(userId, claim);
+            var pocedUser = new PocedUser{Id = userId};
+            var result = pocedUserManager.AddClaimAsync(pocedUser, claim).Result;
             return result == IdentityResult.Success;
         }
 
@@ -31,46 +33,48 @@ namespace Poced.Repository
         {
             var user = new PocedUser {UserName = userName};
 
-            var result = pocedUserManager.Create(user);
+            var result = pocedUserManager.CreateAsync(user).Result;
             return result != IdentityResult.Success ? null : user;
         }
 
         public PocedUser Create(string userName, string password)
         {
             var user = new PocedUser {UserName = userName};
-            var result = pocedUserManager.Create(user, password);
+            var result = pocedUserManager.CreateAsync(user, password).Result;
             return result != IdentityResult.Success ? null : user;
         }
 
-        public ClaimsIdentity CreateIdentity(string provider, string providerId, string authenticationType)
+        public IdentityResult CreateIdentity(string provider, string providerId, string authenticationType)
         {
-            var user = pocedUserManager.Find(new UserLoginInfo(provider, providerId));
+            var user = pocedUserManager.FindByLoginAsync(provider, providerId).Result;
             if (user != null)
             {
-                var claims = pocedUserManager.CreateIdentity(user, authenticationType);
+                IdentityResult claims = pocedUserManager.CreateAsync(user, authenticationType).Result;
                 if (claims != null) return claims;
             }
             return null;
         }
 
-        public ClaimsIdentity CreateIdentity(PocedUser pocedUser, string authenticationName)
+        public IdentityResult CreateIdentity(PocedUser pocedUser, string authenticationName)
         {
-            return pocedUserManager.CreateIdentity(pocedUser, authenticationName);
+            return pocedUserManager.CreateAsync(pocedUser, authenticationName).Result;
         }
 
         public PocedUser FindByName(string userName)
         {
-            return pocedUserManager.FindByName(userName);
+            return pocedUserManager.FindByNameAsync(userName).Result;
         }
 
         public IList<Claim> GetClaims(string userId)
         {
-            return pocedUserManager.GetClaims(userId);
+            var pocedUser = new PocedUser { Id = userId };
+            return pocedUserManager.GetClaimsAsync(pocedUser).Result;
         }
 
         public bool RemoveClaim(string userId, Claim claim)
         {
-            var result = pocedUserManager.RemoveClaim(userId, claim);
+            var pocedUser = new PocedUser { Id = userId };
+            var result = pocedUserManager.RemoveClaimAsync(pocedUser, claim).Result;
             return result == IdentityResult.Success;
         }
     }
