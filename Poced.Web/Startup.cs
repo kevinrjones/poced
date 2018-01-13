@@ -1,7 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
+using Autofac;
+using Autofac.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -11,7 +14,12 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Poced.Identity.Shared;
+using Poced.Logging;
+using Poced.Logging.Web;
+using Poced.Repository;
 using Poced.Repository.Contexts;
+using Poced.Shared;
+using Serilog;
 
 namespace poced.web
 {
@@ -19,7 +27,7 @@ namespace poced.web
     {
         public Startup(IConfiguration configuration)
         {
-            Configuration = configuration;
+            Configuration = configuration;            
         }
 
         public IConfiguration Configuration { get; }
@@ -27,6 +35,10 @@ namespace poced.web
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+
+            services.Configure<PocedApiSettings>(Configuration.GetSection("PocedApiSettings"));
+            services.Configure<PocedLoggingSettings>(Configuration.GetSection("PocedLoggingSettings"));
+
             services.AddDbContext<PocedDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("Default")));
 
@@ -53,6 +65,11 @@ namespace poced.web
                 options.User.RequireUniqueEmail = true;
             });
 
+            // Create the container builder.
+            var builder = new ContainerBuilder();
+
+            
+            builder.Populate(services);
             /*
             app.UseCookieAuthentication(new CookieAuthenticationOptions
             {                
@@ -93,9 +110,58 @@ namespace poced.web
                     options.ClientSecret = "HvijClsL9XzNeVICelRuWc5W";
                 });
 
-            services.AddMvc();
+            services.AddMvc(options =>
+            {
+                options.Filters.Add<TrackPerformanceAttribute>();
+                options.Filters.Add<PocedExceptionFilter>();
+            });
         }
 
+        public void ConfigureContainer(ContainerBuilder builder)
+        {
+            var repositoryAssemblies = Assembly.Load("Poced.Services");
+            builder.RegisterAssemblyTypes(repositoryAssemblies).AsImplementedInterfaces();
+
+            builder.RegisterType<ArticlesRepository>().As<IArticlesRepository>();
+            builder.RegisterType<UsersRepository>().As<IUsersRepository>();
+
+            ConfigureSerilogLogger(builder);
+        }
+
+        private void ConfigureSerilogLogger(ContainerBuilder builder)
+        {
+            var perfLogger = new LoggerConfiguration()
+                .WriteTo.File("web-log-perf.txt")
+                .CreateLogger();
+            var diagLogger = new LoggerConfiguration()
+                .WriteTo.File("web-log-diag.txt")
+                .CreateLogger();
+            var usageLogger = new LoggerConfiguration()
+                .WriteTo.File("web-log-usage.txt")
+                .CreateLogger();
+            var errorLogger = new LoggerConfiguration()
+                .WriteTo.File("web-log-error.txt")
+                .CreateLogger();
+
+            var perfLogParam = new NamedParameter("perfLogger", perfLogger);
+            var diagLogParam = new NamedParameter("diagnosticLogger", diagLogger);
+            var usageLogParam = new NamedParameter("usageLogger", usageLogger);
+            var errorLogParam = new NamedParameter("errorLogger", errorLogger);
+
+            builder.RegisterType<PocedSerilogWebLogger>()
+                .As<IPocedWebLogger>()
+                .WithParameter(perfLogParam)
+                .WithParameter(diagLogParam)
+                .WithParameter(usageLogParam)
+                .WithParameter(errorLogParam);
+
+            builder.RegisterType<PocedSerilogLogger>()
+                .As<IPocedLogger>()
+                .WithParameter(perfLogParam)
+                .WithParameter(diagLogParam)
+                .WithParameter(usageLogParam)
+                .WithParameter(errorLogParam);
+        }
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
@@ -120,49 +186,5 @@ namespace poced.web
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
         }
-
-        /*
-                 private void RegisterTypes(ContainerBuilder builder)
-        {
-            var baseDirectory = AppDomain.CurrentDomain.BaseDirectory;
-            var perfLogger = new LoggerConfiguration()
-                .ReadFrom.AppSettings()
-                .CreateLogger();
-
-            var usageLogger = new LoggerConfiguration()
-                .ReadFrom.AppSettings()
-                .WriteTo.File($@"{baseDirectory}\logs\usage.log")
-                .CreateLogger();
-
-            var errorLogger = new LoggerConfiguration()
-                .ReadFrom.AppSettings()
-                .CreateLogger();
-
-            var diagnosticLogger = new LoggerConfiguration()
-                .ReadFrom.AppSettings()
-                .CreateLogger();
-
-            var connectionString = ConfigurationManager.ConnectionStrings["pocedEntities"].ConnectionString;
-            builder.RegisterControllers(typeof(MvcApplication).Assembly);
-
-            var repositoryAssemblies = Assembly.Load("Poced.Services");
-            builder.RegisterAssemblyTypes(repositoryAssemblies).AsImplementedInterfaces();
-
-            builder.RegisterType<ArticlesRepository>().As<IArticlesRepository>().WithParameter(new NamedParameter("connectionString", connectionString));
-            builder.RegisterType<UsersRepository>().As<IUsersRepository>().WithParameter(new NamedParameter("connectionString", connectionString));
-            builder.RegisterType<AppConfiguration>().As<IConfiguration>();
-
-
-            // todo: autofac named parameters with registered values
-            builder.RegisterType<PocedSerlogLogger>().As<IPocedLogger>().WithParameter(new NamedParameter("perfLogger", perfLogger))
-                .WithParameter(new NamedParameter("usageLogger", usageLogger))
-                .WithParameter(new NamedParameter("errorLogger", errorLogger))
-                .WithParameter(new NamedParameter("diagnosticLogger", diagnosticLogger))
-                .SingleInstance();
-
-            builder.RegisterFilterProvider();
-        }
-
-         */
     }
 }

@@ -12,7 +12,7 @@ namespace Poced.Web.Controllers
         {
             return View();
         }
-        public ActionResult NotFound()
+        public new ActionResult NotFound()
         {
             return View();
         }

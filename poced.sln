@@ -1,30 +1,30 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.27004.2008
+VisualStudioVersion = 15.0.27130.2010
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Scripts", "Scripts", "{C55B132B-1265-43FB-8FB2-0427423995D0}"
 	ProjectSection(SolutionItems) = preProject
 		CreateEventLog.ps1 = CreateEventLog.ps1
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Poced.Configuration", "Poced.Configuration\Poced.Configuration.csproj", "{26CE620B-201E-4F51-B4FE-6190DB9E056B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Poced.Configuration", "Poced.Configuration\Poced.Configuration.csproj", "{26CE620B-201E-4F51-B4FE-6190DB9E056B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Poced.DataInterfaces", "Poced.DataInterfaces\Poced.DataInterfaces.csproj", "{835FFBFA-9485-4CB5-A0D7-33C871455B54}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Poced.DataInterfaces", "Poced.DataInterfaces\Poced.DataInterfaces.csproj", "{835FFBFA-9485-4CB5-A0D7-33C871455B54}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Poced.Logging", "Poced.Logging\Poced.Logging.csproj", "{CE500306-7739-4C65-8E47-4F65E8E4927C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Poced.Logging", "Poced.Logging\Poced.Logging.csproj", "{CE500306-7739-4C65-8E47-4F65E8E4927C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Poced.Logging.Tests", "Poced.Logging.Tests\Poced.Logging.Tests.csproj", "{35032267-203A-4062-A969-F39623658E94}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Poced.Logging.Tests", "Poced.Logging.Tests\Poced.Logging.Tests.csproj", "{35032267-203A-4062-A969-F39623658E94}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Poced.Logging.Web.Tests", "Poced.Logging.Web.Tests\Poced.Logging.Web.Tests.csproj", "{83A5F995-0585-44A1-8AD8-4270BB9C576C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Poced.Logging.Web.Tests", "Poced.Logging.Web.Tests\Poced.Logging.Web.Tests.csproj", "{83A5F995-0585-44A1-8AD8-4270BB9C576C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Poced.Repository", "Poced.Repository\Poced.Repository.csproj", "{23CA2B32-E23C-4A42-AFC8-66B67EC61624}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Poced.Repository", "Poced.Repository\Poced.Repository.csproj", "{23CA2B32-E23C-4A42-AFC8-66B67EC61624}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Poced.Repository.Interfaces", "Poced.Repository.Interfaces\Poced.Repository.Interfaces.csproj", "{673FF57F-C9F0-4DCD-9A78-7CCAB180FFC0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Poced.Repository.Interfaces", "Poced.Repository.Interfaces\Poced.Repository.Interfaces.csproj", "{673FF57F-C9F0-4DCD-9A78-7CCAB180FFC0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Poced.Services", "Poced.Services\Poced.Services.csproj", "{1E97E84F-1E38-4158-8FDA-9B46D259126F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Poced.Services", "Poced.Services\Poced.Services.csproj", "{1E97E84F-1E38-4158-8FDA-9B46D259126F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Poced.Shared", "Poced.Shared\Poced.Shared.csproj", "{34CD9F9A-D50E-4B88-9A01-6BB524FF4DFC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Poced.Shared", "Poced.Shared\Poced.Shared.csproj", "{34CD9F9A-D50E-4B88-9A01-6BB524FF4DFC}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Poced.Web", "Poced.Web\Poced.Web.csproj", "{E2652697-444A-441A-9AE6-ADB7E0B4485B}"
 EndProject

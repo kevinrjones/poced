@@ -29,31 +29,31 @@ namespace Poced.Web.Controllers
         [HttpPost]
         public ActionResult Login(LoginModel model, string returnUrl)
         {
-            if (model.Username == model.Password)
-            {
-                var ci = new ClaimsIdentity("Cookie");
-                ci.AddClaim(new Claim(ClaimTypes.Name, model.Username));
+            //if (model.Username == model.Password)
+            //{
+            //    var ci = new ClaimsIdentity("Cookie");
+            //    ci.AddClaim(new Claim(ClaimTypes.Name, model.Username));
 
-                var ctx = Request.GetOwinContext();
-                ctx.Authentication.SignIn(ci);
+            //    var ctx = Request.GetOwinContext();
+            //    ctx.Authentication.SignIn(ci);
 
-                if (Url.IsLocalUrl(returnUrl))
-                {
-                    return Redirect(returnUrl);
-                }
+            //    if (Url.IsLocalUrl(returnUrl))
+            //    {
+            //        return Redirect(returnUrl);
+            //    }
 
-                return RedirectToAction("Index", "Articles");
-            }
+            //    return RedirectToAction("Index", "Articles");
+            //}
 
-            ModelState.AddModelError("", "Invalid username or password");
+            //ModelState.AddModelError("", "Invalid username or password");
             return View();
         }
 
         [Route("Logout")]
         public ActionResult Logout()
         {
-            var ctx = Request.GetOwinContext();
-            ctx.Authentication.SignOut();
+            //var ctx = Request.GetOwinContext();
+            //ctx.Authentication.SignOut();
 
             return View();
         }
@@ -62,12 +62,12 @@ namespace Poced.Web.Controllers
         [Route("LoginExternal")]
         public ActionResult LoginExternal(string provider, string returnUrl)
         {
-            var ctx = Request.GetOwinContext();
-            var props = new AuthenticationProperties
-            {
-                RedirectUri = "/ExternalCallback"
-            };
-            ctx.Authentication.Challenge(props, provider);
+            //var ctx = Request.GetOwinContext();
+            //var props = new AuthenticationProperties
+            //{
+            //    RedirectUri = "/ExternalCallback"
+            //};
+            //ctx.Authentication.Challenge(props, provider);
             return new UnauthorizedResult();
         }
 
@@ -93,54 +93,54 @@ namespace Poced.Web.Controllers
         [Route("ExternalCallback")]
         public async Task<ActionResult> ExternalCallback()
         {
-            var ctx = Request.GetOwinContext();
-            var external = await ctx.Authentication.AuthenticateAsync("ExternalCookie");
-            if (external == null) return RedirectToAction("Login");
+            //var ctx = Request.GetOwinContext();
+            //var external = await ctx.Authentication.AuthenticateAsync("ExternalCookie");
+            //if (external == null) return RedirectToAction("Login");
 
-            var idClaim = external.Identity.FindFirst(ClaimTypes.NameIdentifier);
-            var provider = idClaim.Issuer;
-            var providerId = idClaim.Value;
+            //var idClaim = external.Identity.FindFirst(ClaimTypes.NameIdentifier);
+            //var provider = idClaim.Issuer;
+            //var providerId = idClaim.Value;
 
-            var claimsIdentity = _userService.CreateUserIdentity(provider, providerId);
-            if (claimsIdentity != null)
-            {
-                ctx.Authentication.SignIn(claimsIdentity);
-                ctx.Authentication.SignOut("ExternalCookie");
-                return RedirectToAction("Index", "Articles");
-            }
-            else
-            {
+            //var claimsIdentity = _userService.CreateUserIdentity(provider, providerId);
+            //if (claimsIdentity != null)
+            //{
+            //    ctx.Authentication.SignIn(claimsIdentity);
+            //    ctx.Authentication.SignOut("ExternalCookie");
+            //    return RedirectToAction("Index", "Articles");
+            //}
+            //else
+            //{
                 return View("RegisterExternal");
-            }
+            //}
         }
 
         [HttpPost]
         [Route("Account/RegisterExternal")]
         public async Task<ActionResult> RegisterExternal(RegisterExternalModel model)
         {
-            var ctx = Request.GetOwinContext();
-            var external = await ctx.Authentication.AuthenticateAsync("ExternalCookie");
-            if (external == null) return RedirectToAction("Login");
+            //var ctx = Request.GetOwinContext();
+            //var external = await ctx.Authentication.AuthenticateAsync("ExternalCookie");
+            //if (external == null) return RedirectToAction("Login");
 
-            var idClaim = external.Identity.FindFirst(ClaimTypes.NameIdentifier);
-            var provider = idClaim.Issuer;
-            var providerId = idClaim.Value;
+            //var idClaim = external.Identity.FindFirst(ClaimTypes.NameIdentifier);
+            //var provider = idClaim.Issuer;
+            //var providerId = idClaim.Value;
 
-            if (ModelState.IsValid)
-            {
-                var user = _userService.CreateAndLoginUser(model.Username, provider, providerId, external.Identity.Claims);
-                if (user != null)
-                {
-                    ctx.Authentication.SignOut("ExternalCookie");
+            //if (ModelState.IsValid)
+            //{
+            //    var user = _userService.CreateAndLoginUser(model.Username, provider, providerId, external.Identity.Claims);
+            //    if (user != null)
+            //    {
+            //        ctx.Authentication.SignOut("ExternalCookie");
 
-                    var ci = _userService.CreateIdentity(user, "Cookie");
-                    ctx.Authentication.SignIn(ci);
+            //        var ci = _userService.CreateIdentity(user, "Cookie");
+            //        ctx.Authentication.SignIn(ci);
 
-                    return RedirectToAction("RegisterSuccess");
-                }
+            //        return RedirectToAction("RegisterSuccess");
+            //    }
 
-                ModelState.AddModelError("", "Unable to register user");
-            }
+            //    ModelState.AddModelError("", "Unable to register user");
+            //}
 
             return View();
         }
@@ -165,39 +165,39 @@ namespace Poced.Web.Controllers
         [Route("Account/UpdateProfile")]
         public ActionResult UpdateProfile(ProfileModel model)
         {
-            var user = _userService.FindByName(User.Identity.Name);
-            var claims = _userService.GetClaims(user.Id);
+            //var user = _userService.FindByName(User.Identity.Name);
+            //var claims = _userService.GetClaims(user.Id);
 
-            var givenName = claims.FirstOrDefault(x => x.Type == ClaimTypes.GivenName);
-            if (givenName != null)
-            {
-                bool result = _userService.RemoveClaim(user.Id, givenName);
-                if (!result) ModelState.AddModelError("", $"Unable to remove GivenName claim");
-            }
+            //var givenName = claims.FirstOrDefault(x => x.Type == ClaimTypes.GivenName);
+            //if (givenName != null)
+            //{
+            //    bool result = _userService.RemoveClaim(user.Id, givenName);
+            //    if (!result) ModelState.AddModelError("", $"Unable to remove GivenName claim");
+            //}
 
-            var surname = claims.FirstOrDefault(x => x.Type == ClaimTypes.Surname);
-            if (surname != null)
-            {
-                var result = _userService.RemoveClaim(user.Id, surname);
-                if (!result) ModelState.AddModelError("", $"Unable to remove Surame claim");
-            }
+            //var surname = claims.FirstOrDefault(x => x.Type == ClaimTypes.Surname);
+            //if (surname != null)
+            //{
+            //    var result = _userService.RemoveClaim(user.Id, surname);
+            //    if (!result) ModelState.AddModelError("", $"Unable to remove Surame claim");
+            //}
 
-            if (!String.IsNullOrWhiteSpace(model.First))
-            {
-                bool result = _userService.AddClaim(user.Id, new Claim(ClaimTypes.GivenName, model.First));
-                if (!result) ModelState.AddModelError("", $"Unable to add GivenName claim");
-            }
-            if (!String.IsNullOrWhiteSpace(model.Last))
-            {
-                var result = _userService.AddClaim(user.Id, new Claim(ClaimTypes.Surname, model.Last));
-                if (!result) ModelState.AddModelError("", $"Unable to add GivenName claim");
-            }
+            //if (!String.IsNullOrWhiteSpace(model.First))
+            //{
+            //    bool result = _userService.AddClaim(user.Id, new Claim(ClaimTypes.GivenName, model.First));
+            //    if (!result) ModelState.AddModelError("", $"Unable to add GivenName claim");
+            //}
+            //if (!String.IsNullOrWhiteSpace(model.Last))
+            //{
+            //    var result = _userService.AddClaim(user.Id, new Claim(ClaimTypes.Surname, model.Last));
+            //    if (!result) ModelState.AddModelError("", $"Unable to add GivenName claim");
+            //}
 
-            var ci = _userService.CreateIdentity(user, "Cookie");
-            var ctx = Request.GetOwinContext();
-            ctx.Authentication.SignIn(ci);
+            //var ci = _userService.CreateIdentity(user, "Cookie");
+            //var ctx = Request.GetOwinContext();
+            //ctx.Authentication.SignIn(ci);
 
-            if (ModelState.IsValid) ViewData["Success"] = true;
+            //if (ModelState.IsValid) ViewData["Success"] = true;
             return Profile();
         }
     }

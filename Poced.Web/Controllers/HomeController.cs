@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Poced.Web.Controllers
 {
-    [Authorize]
+//    [Authorize]
     public class HomeController : Controller
     {
         [Route("Home/About")]
