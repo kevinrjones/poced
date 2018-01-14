@@ -32,6 +32,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Poced.Identity.Shared", "Po
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Poced.Logging.Web", "Poced.Logging.Web\Poced.Logging.Web.csproj", "{7C68FA55-71AF-4FF1-86FB-6D85770149E2}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebApplication1", "WebApplication1\WebApplication1.csproj", "{A1545AEF-08FB-49DC-AA0E-3F7624B93D0C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -86,6 +88,10 @@ Global
 		{7C68FA55-71AF-4FF1-86FB-6D85770149E2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7C68FA55-71AF-4FF1-86FB-6D85770149E2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7C68FA55-71AF-4FF1-86FB-6D85770149E2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A1545AEF-08FB-49DC-AA0E-3F7624B93D0C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A1545AEF-08FB-49DC-AA0E-3F7624B93D0C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A1545AEF-08FB-49DC-AA0E-3F7624B93D0C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A1545AEF-08FB-49DC-AA0E-3F7624B93D0C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

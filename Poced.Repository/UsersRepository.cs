@@ -8,24 +8,31 @@ namespace Poced.Repository
 {
     public class UsersRepository : PocedRepository<PocedUser>, IUsersRepository
     {
-        private readonly PocedUserManager pocedUserManager;
+        private readonly UserManager<PocedUser> _userManager;
 
-        public UsersRepository(PocedUserManager userManager, PocedDbContext dbContext) : base(dbContext)
+
+        public UsersRepository(UserManager<PocedUser> userManager, PocedDbContext dbContext) : base(dbContext)
         {
-            pocedUserManager = userManager;
+            _userManager = userManager;
+
         }
+
+        //public UsersRepository(PocedUserManager userManager, PocedDbContext dbContext) : base(dbContext)
+        //{
+        //    _userManager = userManager;
+        //}
 
         public bool AddLogin(string userId, string provider, string providerId)
         {
             var pocedUser = new PocedUser { Id = userId };
-            var result = pocedUserManager.AddLoginAsync(pocedUser, new UserLoginInfo(provider, providerId, "")).Result;
+            var result = _userManager.AddLoginAsync(pocedUser, new UserLoginInfo(provider, providerId, "")).Result;
             return result == IdentityResult.Success;
         }
 
         public bool AddClaim(string userId, Claim claim)
         {
             var pocedUser = new PocedUser{Id = userId};
-            var result = pocedUserManager.AddClaimAsync(pocedUser, claim).Result;
+            var result = _userManager.AddClaimAsync(pocedUser, claim).Result;
             return result == IdentityResult.Success;
         }
 
@@ -33,23 +40,23 @@ namespace Poced.Repository
         {
             var user = new PocedUser {UserName = userName};
 
-            var result = pocedUserManager.CreateAsync(user).Result;
+            var result = _userManager.CreateAsync(user).Result;
             return result != IdentityResult.Success ? null : user;
         }
 
         public PocedUser Create(string userName, string password)
         {
             var user = new PocedUser {UserName = userName};
-            var result = pocedUserManager.CreateAsync(user, password).Result;
+            var result = _userManager.CreateAsync(user, password).Result;
             return result != IdentityResult.Success ? null : user;
         }
 
         public IdentityResult CreateIdentity(string provider, string providerId, string authenticationType)
         {
-            var user = pocedUserManager.FindByLoginAsync(provider, providerId).Result;
+            var user = _userManager.FindByLoginAsync(provider, providerId).Result;
             if (user != null)
             {
-                IdentityResult claims = pocedUserManager.CreateAsync(user, authenticationType).Result;
+                IdentityResult claims = _userManager.CreateAsync(user, authenticationType).Result;
                 if (claims != null) return claims;
             }
             return null;
@@ -57,24 +64,24 @@ namespace Poced.Repository
 
         public IdentityResult CreateIdentity(PocedUser pocedUser, string authenticationName)
         {
-            return pocedUserManager.CreateAsync(pocedUser, authenticationName).Result;
+            return _userManager.CreateAsync(pocedUser, authenticationName).Result;
         }
 
         public PocedUser FindByName(string userName)
         {
-            return pocedUserManager.FindByNameAsync(userName).Result;
+            return _userManager.FindByNameAsync(userName).Result;
         }
 
         public IList<Claim> GetClaims(string userId)
         {
             var pocedUser = new PocedUser { Id = userId };
-            return pocedUserManager.GetClaimsAsync(pocedUser).Result;
+            return _userManager.GetClaimsAsync(pocedUser).Result;
         }
 
         public bool RemoveClaim(string userId, Claim claim)
         {
             var pocedUser = new PocedUser { Id = userId };
-            var result = pocedUserManager.RemoveClaimAsync(pocedUser, claim).Result;
+            var result = _userManager.RemoveClaimAsync(pocedUser, claim).Result;
             return result == IdentityResult.Success;
         }
     }

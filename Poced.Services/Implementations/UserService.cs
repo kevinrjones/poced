@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using Poced.Identity.Shared;
 using Poced.Repository;
@@ -11,10 +12,12 @@ namespace Poced.Services.Implementations
     public class UserService : IUserService
     {
         private readonly IUsersRepository _usersRepository;
+        private readonly SignInManager<PocedUser> _signInManager;
 
-        public UserService(IUsersRepository usersRepository)
+        public UserService(IUsersRepository usersRepository, SignInManager<PocedUser> signInManager)
         {
             _usersRepository = usersRepository;
+            _signInManager = signInManager;
         }
 
         public PocedUser CreateUser(string userName, string password)
@@ -55,6 +58,11 @@ namespace Poced.Services.Implementations
         public bool AddClaim(string userId, Claim claim)
         {
             return _usersRepository.AddClaim(userId, claim);
+        }
+
+        public async Task<SignInResult> PasswordSignInAsync(string email, string password, bool rememberMe)
+        {
+            return await _signInManager.PasswordSignInAsync(email, password, rememberMe, false);
         }
 
         public PocedUser CreateAndLoginUser(string username, string provider, string providerId,

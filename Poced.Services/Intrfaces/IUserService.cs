@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Security.Claims;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using Poced.Identity.Shared;
 
@@ -16,5 +17,6 @@ namespace Poced.Services.Intrfaces
         IList<Claim> GetClaims(string userId);
         bool RemoveClaim(string userId, Claim claim);
         bool AddClaim(string userId, Claim claim);
+        Task<SignInResult> PasswordSignInAsync(string email, string password, bool rememberMe);
     }
 }

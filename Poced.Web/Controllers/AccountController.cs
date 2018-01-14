@@ -5,51 +5,64 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using System.Web;
 using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Poced.Logging;
+using Poced.Logging.Web;
 using Poced.Services.Intrfaces;
 using Poced.Web.Models;
 
 namespace Poced.Web.Controllers
 {
+    [Route("[controller]/[action]")]
     public class AccountController : Controller
     {
         private readonly IUserService _userService;
+        private readonly IPocedWebLogger _logger;
 
-        public AccountController(IUserService userService)
+        public AccountController(IUserService userService, IPocedWebLogger logger)
         {
             _userService = userService;
+            _logger = logger;
         }
-        [Route("Login")]
-        public ActionResult Login()
+
+        [HttpGet]
+        [AllowAnonymous]
+        public async Task<IActionResult> Login(string returnUrl = null)
         {
+            // Clear the existing external cookie to ensure a clean login process
+            await HttpContext.SignOutAsync(IdentityConstants.ExternalScheme);
+
+            ViewData["ReturnUrl"] = returnUrl;
             return View();
         }
 
-        [Route("Login")]
         [HttpPost]
-        public ActionResult Login(LoginModel model, string returnUrl)
+        [AllowAnonymous]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Login(LoginModel model, string returnUrl = null)
         {
-            //if (model.Username == model.Password)
-            //{
-            //    var ci = new ClaimsIdentity("Cookie");
-            //    ci.AddClaim(new Claim(ClaimTypes.Name, model.Username));
-
-            //    var ctx = Request.GetOwinContext();
-            //    ctx.Authentication.SignIn(ci);
-
-            //    if (Url.IsLocalUrl(returnUrl))
-            //    {
-            //        return Redirect(returnUrl);
-            //    }
-
-            //    return RedirectToAction("Index", "Articles");
-            //}
-
-            //ModelState.AddModelError("", "Invalid username or password");
-            return View();
+            var result = await _userService.PasswordSignInAsync(model.Email, model.Password, model.RememberMe);
+            if (result.Succeeded)
+            {
+                // todo: 
+                _logger.WriteDiagnostic(HttpContext, "Poced", "Web", "Successful Login");
+                return RedirectToLocal(returnUrl);
+            }
+            if (result.IsLockedOut)
+            {
+                _logger.WriteDiagnostic(HttpContext, "Poced", "Web", "User account locked out.", null, LogLevel.Warning);
+                return RedirectToAction(nameof(Lockout));
+            }
+            else
+            {
+                ModelState.AddModelError(string.Empty, "Invalid login attempt.");
+                return View(model);
+            }
         }
 
-        [Route("Logout")]
+
         public ActionResult Logout()
         {
             //var ctx = Request.GetOwinContext();
@@ -59,7 +72,7 @@ namespace Poced.Web.Controllers
         }
 
 
-        [Route("LoginExternal")]
+
         public ActionResult LoginExternal(string provider, string returnUrl)
         {
             //var ctx = Request.GetOwinContext();
@@ -72,7 +85,6 @@ namespace Poced.Web.Controllers
         }
 
         [HttpPost]
-        [Route("Account/Register")]
         public ActionResult Register(RegisterModel model)
         {
             if (ModelState.IsValid)
@@ -90,7 +102,7 @@ namespace Poced.Web.Controllers
             return View();
         }
 
-        [Route("ExternalCallback")]
+
         public async Task<ActionResult> ExternalCallback()
         {
             //var ctx = Request.GetOwinContext();
@@ -110,12 +122,11 @@ namespace Poced.Web.Controllers
             //}
             //else
             //{
-                return View("RegisterExternal");
+            return View("RegisterExternal");
             //}
         }
 
         [HttpPost]
-        [Route("Account/RegisterExternal")]
         public async Task<ActionResult> RegisterExternal(RegisterExternalModel model)
         {
             //var ctx = Request.GetOwinContext();
@@ -128,7 +139,7 @@ namespace Poced.Web.Controllers
 
             //if (ModelState.IsValid)
             //{
-            //    var user = _userService.CreateAndLoginUser(model.Username, provider, providerId, external.Identity.Claims);
+            //    var user = _userService.CreateAndLoginUser(model.Email, provider, providerId, external.Identity.Claims);
             //    if (user != null)
             //    {
             //        ctx.Authentication.SignOut("ExternalCookie");
@@ -146,13 +157,11 @@ namespace Poced.Web.Controllers
         }
 
 
-        [Route("Account/RegisterSuccess")]
         public ActionResult RegisterSuccess()
         {
             return View();
         }
 
-        [Route("Account/Profile")]
         public ActionResult Profile()
         {
             var user = _userService.FindByName(User.Identity.Name);
@@ -162,7 +171,6 @@ namespace Poced.Web.Controllers
         }
 
         [HttpPost]
-        [Route("Account/UpdateProfile")]
         public ActionResult UpdateProfile(ProfileModel model)
         {
             //var user = _userService.FindByName(User.Identity.Name);
@@ -200,6 +208,23 @@ namespace Poced.Web.Controllers
             //if (ModelState.IsValid) ViewData["Success"] = true;
             return Profile();
         }
+
+        [HttpGet]
+        [AllowAnonymous]
+        public IActionResult Lockout()
+        {
+            return View();
+        }
+
+        private IActionResult RedirectToLocal(string returnUrl)
+        {
+            if (Url.IsLocalUrl(returnUrl))
+            {
+                return Redirect(returnUrl);
+            }
+            return RedirectToAction(nameof(ArticlesController.Index), "Articles");
+        }
+
     }
 
 }
