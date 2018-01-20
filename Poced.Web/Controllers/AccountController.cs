@@ -8,10 +8,12 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Poced.Identity.Shared;
 using Poced.Logging;
 using Poced.Logging.Web;
 using Poced.Services.Intrfaces;
 using Poced.Web.Models;
+using Poced.Web.Models.Account;
 
 namespace Poced.Web.Controllers
 {
@@ -20,6 +22,9 @@ namespace Poced.Web.Controllers
     {
         private readonly IUserService _userService;
         private readonly IPocedWebLogger _logger;
+
+        [TempData]
+        public string ErrorMessage { get; set; }
 
         public AccountController(IUserService userService, IPocedWebLogger logger)
         {
@@ -63,98 +68,135 @@ namespace Poced.Web.Controllers
         }
 
 
-        public ActionResult Logout()
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Logout()
         {
-            //var ctx = Request.GetOwinContext();
-            //ctx.Authentication.SignOut();
+            await _userService.SignOutAsync();
+            _logger.WriteDiagnostic(HttpContext, "Poced", "Web", "User logged out.");
+            return RedirectToAction(nameof(ArticlesController.Index), "Articles");
+        }
 
+        [HttpGet]
+        [AllowAnonymous]
+        public IActionResult Lockout()
+        {
             return View();
         }
 
-
-
-        public ActionResult LoginExternal(string provider, string returnUrl)
+        [HttpGet]
+        [AllowAnonymous]
+        public IActionResult Register(string returnUrl = null)
         {
-            //var ctx = Request.GetOwinContext();
-            //var props = new AuthenticationProperties
-            //{
-            //    RedirectUri = "/ExternalCallback"
-            //};
-            //ctx.Authentication.Challenge(props, provider);
-            return new UnauthorizedResult();
+            ViewData["ReturnUrl"] = returnUrl;
+            return View();
         }
 
         [HttpPost]
-        public ActionResult Register(RegisterModel model)
+        [AllowAnonymous]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Register(RegisterModel model, string returnUrl = null)
+        {
+            ViewData["ReturnUrl"] = returnUrl;
+            if (ModelState.IsValid)
+            {
+                var user = new PocedUser { UserName = model.Email, Email = model.Email };
+                var result = await _userService.CreateAsync(user);
+                if (result.Succeeded)
+                {
+                    _logger.WriteDiagnostic(HttpContext, "Poced", "Web", "User created a new account with password.");
+
+                    await _userService.SignInAsync(user, isPersistent: false);
+                    _logger.WriteDiagnostic(HttpContext, "Poced", "Web", "User created a new account with password.");
+                    return RedirectToLocal(returnUrl);
+                }
+                AddErrors(result);
+            }
+
+            // If we got this far, something failed, redisplay form
+            return View(model);
+        }
+
+
+        [HttpPost]
+        [AllowAnonymous]
+        [ValidateAntiForgeryToken]
+        public IActionResult ExternalLogin(string provider, string returnUrl)
+        {
+            // Request a redirect to the external login provider.
+            var redirectUrl = Url.Action(nameof(ExternalLoginCallback), "Account", new { returnUrl });
+            var properties = _userService.ConfigureExternalAuthenticationProperties(provider, redirectUrl);
+            return Challenge(properties, provider);
+        }
+
+        [HttpGet]
+        [AllowAnonymous]
+        public async Task<IActionResult> ExternalLoginCallback(string returnUrl = null, string remoteError = null)
+        {
+            if (remoteError != null)
+            {
+                ErrorMessage = $"Error from external provider: {remoteError}";
+                return RedirectToAction(nameof(Login));
+            }
+            var info = await _userService.GetExternalLoginInfoAsync();
+            if (info == null)
+            {
+                return RedirectToAction(nameof(Login));
+            }
+
+            // Sign in the user with this external login provider if the user already has a login.
+            var result = await _userService.ExternalLoginSignInAsync(info.LoginProvider, info.ProviderKey, isPersistent: false, bypassTwoFactor: true);
+            if (result.Succeeded)
+            {
+                _logger.WriteDiagnostic(HttpContext, "Poced", "Web", $"User logged in with {info.LoginProvider} provider.");
+                return RedirectToLocal(returnUrl);
+            }
+            if (result.IsLockedOut)
+            {
+                return RedirectToAction(nameof(Lockout));
+            }
+            else
+            {
+                // If the user does not have an account, then ask the user to create an account.
+                ViewData["ReturnUrl"] = returnUrl;
+                ViewData["LoginProvider"] = info.LoginProvider;
+                var email = info.Principal.FindFirstValue(ClaimTypes.Email);
+                return View("ExternalLogin", new ExternalLoginViewModel { Email = email });
+            }
+        }
+
+        [HttpPost]
+        [AllowAnonymous]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> ExternalLoginConfirmation(ExternalLoginViewModel model, string returnUrl = null)
         {
             if (ModelState.IsValid)
             {
-                var result = _userService.CreateUser(model.Username, model.Password);
-
-                if (result != null)
+                // Get the information about the user from the external login provider
+                var info = await _userService.GetExternalLoginInfoAsync();
+                if (info == null)
                 {
-                    return View("RegisterSuccess");
+                    throw new ApplicationException("Error loading external login information during confirmation.");
                 }
-
-                ModelState.AddModelError("", "Unable to register user");
+                var user = new PocedUser { UserName = model.Email, Email = model.Email };
+                var result = await _userService.CreateAsync(user);
+                if (result.Succeeded)
+                {
+                    result = await _userService.AddLoginAsync(user, info);
+                    if (result.Succeeded)
+                    {
+                        await _userService.SignInAsync(user, isPersistent: false);
+                        _logger.WriteDiagnostic(HttpContext, "Poced", "Web", $"User created an account using {info.LoginProvider} provider.");
+                        return RedirectToLocal(returnUrl);
+                    }
+                }
+                AddErrors(result);
             }
 
-            return View();
+            ViewData["ReturnUrl"] = returnUrl;
+            return View(nameof(ExternalLogin), model);
         }
 
-
-        public async Task<ActionResult> ExternalCallback()
-        {
-            //var ctx = Request.GetOwinContext();
-            //var external = await ctx.Authentication.AuthenticateAsync("ExternalCookie");
-            //if (external == null) return RedirectToAction("Login");
-
-            //var idClaim = external.Identity.FindFirst(ClaimTypes.NameIdentifier);
-            //var provider = idClaim.Issuer;
-            //var providerId = idClaim.Value;
-
-            //var claimsIdentity = _userService.CreateUserIdentity(provider, providerId);
-            //if (claimsIdentity != null)
-            //{
-            //    ctx.Authentication.SignIn(claimsIdentity);
-            //    ctx.Authentication.SignOut("ExternalCookie");
-            //    return RedirectToAction("Index", "Articles");
-            //}
-            //else
-            //{
-            return View("RegisterExternal");
-            //}
-        }
-
-        [HttpPost]
-        public async Task<ActionResult> RegisterExternal(RegisterExternalModel model)
-        {
-            //var ctx = Request.GetOwinContext();
-            //var external = await ctx.Authentication.AuthenticateAsync("ExternalCookie");
-            //if (external == null) return RedirectToAction("Login");
-
-            //var idClaim = external.Identity.FindFirst(ClaimTypes.NameIdentifier);
-            //var provider = idClaim.Issuer;
-            //var providerId = idClaim.Value;
-
-            //if (ModelState.IsValid)
-            //{
-            //    var user = _userService.CreateAndLoginUser(model.Email, provider, providerId, external.Identity.Claims);
-            //    if (user != null)
-            //    {
-            //        ctx.Authentication.SignOut("ExternalCookie");
-
-            //        var ci = _userService.CreateIdentity(user, "Cookie");
-            //        ctx.Authentication.SignIn(ci);
-
-            //        return RedirectToAction("RegisterSuccess");
-            //    }
-
-            //    ModelState.AddModelError("", "Unable to register user");
-            //}
-
-            return View();
-        }
 
 
         public ActionResult RegisterSuccess()
@@ -170,52 +212,6 @@ namespace Poced.Web.Controllers
             return View("Profile", vm);
         }
 
-        [HttpPost]
-        public ActionResult UpdateProfile(ProfileModel model)
-        {
-            //var user = _userService.FindByName(User.Identity.Name);
-            //var claims = _userService.GetClaims(user.Id);
-
-            //var givenName = claims.FirstOrDefault(x => x.Type == ClaimTypes.GivenName);
-            //if (givenName != null)
-            //{
-            //    bool result = _userService.RemoveClaim(user.Id, givenName);
-            //    if (!result) ModelState.AddModelError("", $"Unable to remove GivenName claim");
-            //}
-
-            //var surname = claims.FirstOrDefault(x => x.Type == ClaimTypes.Surname);
-            //if (surname != null)
-            //{
-            //    var result = _userService.RemoveClaim(user.Id, surname);
-            //    if (!result) ModelState.AddModelError("", $"Unable to remove Surame claim");
-            //}
-
-            //if (!String.IsNullOrWhiteSpace(model.First))
-            //{
-            //    bool result = _userService.AddClaim(user.Id, new Claim(ClaimTypes.GivenName, model.First));
-            //    if (!result) ModelState.AddModelError("", $"Unable to add GivenName claim");
-            //}
-            //if (!String.IsNullOrWhiteSpace(model.Last))
-            //{
-            //    var result = _userService.AddClaim(user.Id, new Claim(ClaimTypes.Surname, model.Last));
-            //    if (!result) ModelState.AddModelError("", $"Unable to add GivenName claim");
-            //}
-
-            //var ci = _userService.CreateIdentity(user, "Cookie");
-            //var ctx = Request.GetOwinContext();
-            //ctx.Authentication.SignIn(ci);
-
-            //if (ModelState.IsValid) ViewData["Success"] = true;
-            return Profile();
-        }
-
-        [HttpGet]
-        [AllowAnonymous]
-        public IActionResult Lockout()
-        {
-            return View();
-        }
-
         private IActionResult RedirectToLocal(string returnUrl)
         {
             if (Url.IsLocalUrl(returnUrl))
@@ -224,6 +220,15 @@ namespace Poced.Web.Controllers
             }
             return RedirectToAction(nameof(ArticlesController.Index), "Articles");
         }
+
+        private void AddErrors(IdentityResult result)
+        {
+            foreach (var error in result.Errors)
+            {
+                ModelState.AddModelError(string.Empty, error.Description);
+            }
+        }
+
 
     }
 

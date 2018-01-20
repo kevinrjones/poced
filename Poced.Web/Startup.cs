@@ -1,14 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
-using System.Threading.Tasks;
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -70,21 +66,7 @@ namespace poced.web
 
             
             builder.Populate(services);
-            /*
-            app.UseCookieAuthentication(new CookieAuthenticationOptions
-            {                
-                AuthenticationType = "Cookie",
-                LoginPath = new PathString("/login")
-            });
 
-            app.UseCookieAuthentication(new CookieAuthenticationOptions
-            {
-                AuthenticationType = "ExternalCookie",
-                AuthenticationMode = AuthenticationMode.Passive,
-                ExpireTimeSpan = TimeSpan.FromMinutes(5)
-            });
-
-            */
             services.ConfigureApplicationCookie(options =>
             {
                 // Cookie settings
@@ -104,10 +86,8 @@ namespace poced.web
                 })
                 .AddGoogle(options =>
                 {
-                    //googleOptions.ClientId = Configuration["Authentication:Google:ClientId"];
-                    //googleOptions.ClientSecret = Configuration["Authentication:Google:ClientSecret"];
-                    options.ClientId = "656376280253-dj3e3qqhmbcp4oir5gfk8btm17v8b9om.apps.googleusercontent.com";
-                    options.ClientSecret = "HvijClsL9XzNeVICelRuWc5W";
+                    options.ClientId = Configuration["Authentication:Google:ClientId"];
+                    options.ClientSecret = Configuration["Authentication:Google:ClientSecret"];
                 });
 
             services.AddMvc(options =>
@@ -162,7 +142,7 @@ namespace poced.web
                 .WithParameter(usageLogParam)
                 .WithParameter(errorLogParam);
         }
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+        
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
             if (env.IsDevelopment())

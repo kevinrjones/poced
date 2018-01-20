@@ -219,7 +219,7 @@ body {
     font-family: proxima-nova, "Helvetica Neue", Helvetica, Arial, sans-serif;
     font-size: 13px;
     background: #f4f4f6;
-    text-align: center
+/*    text-align: center*/
 }
 
 a {
@@ -15203,4 +15203,13 @@ blockquote {
 .validation-summary-errors li{
     color: red;
     padding: 3px;
+}
+
+.login-section {
+    padding-top: 80px;
+/*    text-align: left;*/
+}
+
+.page-header {
+    text-align: center;
 }

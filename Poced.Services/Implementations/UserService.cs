@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Identity;
 using Poced.Identity.Shared;
 using Poced.Repository;
@@ -13,11 +14,18 @@ namespace Poced.Services.Implementations
     {
         private readonly IUsersRepository _usersRepository;
         private readonly SignInManager<PocedUser> _signInManager;
+        private readonly UserManager<PocedUser> _userManager;
 
-        public UserService(IUsersRepository usersRepository, SignInManager<PocedUser> signInManager)
+        public UserService(IUsersRepository usersRepository, SignInManager<PocedUser> signInManager, UserManager<PocedUser> _userManager)
         {
             _usersRepository = usersRepository;
             _signInManager = signInManager;
+            this._userManager = _userManager;
+        }
+
+        public async Task<IdentityResult> CreateAsync(PocedUser user)
+        {
+            return await _userManager.CreateAsync(user);
         }
 
         public PocedUser CreateUser(string userName, string password)
@@ -63,6 +71,37 @@ namespace Poced.Services.Implementations
         public async Task<SignInResult> PasswordSignInAsync(string email, string password, bool rememberMe)
         {
             return await _signInManager.PasswordSignInAsync(email, password, rememberMe, false);
+        }
+
+        public async Task SignInAsync(PocedUser user, bool isPersistent)
+        {
+            await _signInManager.SignInAsync(user, isPersistent);
+        }
+
+        public async Task SignOutAsync()
+        {
+            await _signInManager.SignOutAsync();
+        }
+
+        public AuthenticationProperties ConfigureExternalAuthenticationProperties(string provider, string redirectUrl)
+        {
+            return _signInManager.ConfigureExternalAuthenticationProperties(provider, redirectUrl);
+        }
+
+        public async Task<ExternalLoginInfo> GetExternalLoginInfoAsync()
+        {
+            return await _signInManager.GetExternalLoginInfoAsync();
+        }
+
+        public async Task<SignInResult> ExternalLoginSignInAsync(string infoLoginProvider, string infoProviderKey, bool isPersistent,
+            bool bypassTwoFactor)
+        {
+            return await _signInManager.ExternalLoginSignInAsync(infoLoginProvider, infoProviderKey, isPersistent);
+        }
+
+        public async Task<IdentityResult> AddLoginAsync(PocedUser user, ExternalLoginInfo info)
+        {
+            return await _userManager.AddLoginAsync(user, info);
         }
 
         public PocedUser CreateAndLoginUser(string username, string provider, string providerId,
