@@ -28,9 +28,9 @@ namespace Poced.Services.Implementations
             return await _userManager.CreateAsync(user);
         }
 
-        public PocedUser CreateUser(string userName, string password)
+        public async Task<IdentityResult> CreateAsync(PocedUser user, string password)
         {
-            return _usersRepository.Create(userName, password);
+            return await _userManager.CreateAsync(user, password);
         }
 
         public IdentityResult CreateUserIdentity(string provider, string providerId)

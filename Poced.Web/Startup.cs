@@ -16,6 +16,7 @@ using Poced.Repository;
 using Poced.Repository.Contexts;
 using Poced.Shared;
 using Serilog;
+using Serilog.Sinks.SystemConsole.Themes;
 
 namespace poced.web
 {
@@ -38,56 +39,30 @@ namespace poced.web
             services.AddDbContext<PocedDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("Default")));
 
-            services.AddIdentity<PocedUser, IdentityRole>()
-                .AddEntityFrameworkStores<PocedDbContext>()
-                .AddDefaultTokenProviders();
-
-            services.Configure<IdentityOptions>(options =>
-            {
-                // Password settings
-                options.Password.RequireDigit = true;
-                options.Password.RequiredLength = 8;
-                options.Password.RequireNonAlphanumeric = false;
-                options.Password.RequireUppercase = true;
-                options.Password.RequireLowercase = false;
-                options.Password.RequiredUniqueChars = 6;
-
-                // Lockout settings
-                options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(30);
-                options.Lockout.MaxFailedAccessAttempts = 10;
-                options.Lockout.AllowedForNewUsers = true;
-
-                // User settings
-                options.User.RequireUniqueEmail = true;
-            });
-
             // Create the container builder.
             var builder = new ContainerBuilder();
 
             
             builder.Populate(services);
 
-            services.ConfigureApplicationCookie(options =>
-            {
-                // Cookie settings
-                options.Cookie.HttpOnly = true;
-                options.Cookie.Expiration = TimeSpan.FromDays(150);
-                options.LoginPath = "/Account/Login"; // If the LoginPath is not set here, ASP.NET Core will default to /Account/Login
-                options.LogoutPath = "/Account/Logout"; // If the LogoutPath is not set here, ASP.NET Core will default to /Account/Logout
-                options.AccessDeniedPath = "/Account/AccessDenied"; // If the AccessDeniedPath is not set here, ASP.NET Core will default to /Account/AccessDenied
-                options.SlidingExpiration = true;
-            });
-
-            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
-                .AddCookie(options =>
+                services.AddAuthentication(options =>
                 {
-                    options.LoginPath = "/Account/Login";
-                    options.LogoutPath = "/Account/Logout";
+                    options.DefaultScheme = "oidc.cookie";
+                    options.DefaultChallengeScheme = "oidc";
                 })
-                .AddGoogle(options =>
+                .AddCookie("oidc.cookie")
+                //.AddGoogle(options =>
+                //{
+                //    options.ClientId = Configuration["Authentication:Google:ClientId"];
+                //    options.ClientSecret = Configuration["Authentication:Google:ClientSecret"];
+                //})
+                .AddOpenIdConnect("oidc", options =>
                 {
-                    options.ClientId = Configuration["Authentication:Google:ClientId"];
-                    options.ClientSecret = Configuration["Authentication:Google:ClientSecret"];
+                    options.Authority = "http://poced.ids.local";
+                    options.ClientId = "poced";
+                    options.SignInScheme = "oidc.cookie";
+                    //options.ClientSecret = "nKsxtdRxowzf0AqYvd6maiex6pdxLTml3AN+vw9sQp+9S8pnGVPOXWjMcfoN2cMXGrDJ7R82UMtNMvosHN53dg==";
+                    options.RequireHttpsMetadata = false;
                 });
 
             services.AddMvc(options =>
@@ -112,15 +87,19 @@ namespace poced.web
         {
             var perfLogger = new LoggerConfiguration()
                 .WriteTo.File("web-log-perf.txt")
+                .WriteTo.Console(theme: AnsiConsoleTheme.Literate)
                 .CreateLogger();
             var diagLogger = new LoggerConfiguration()
                 .WriteTo.File("web-log-diag.txt")
+                .WriteTo.Console(theme: AnsiConsoleTheme.Literate)
                 .CreateLogger();
             var usageLogger = new LoggerConfiguration()
                 .WriteTo.File("web-log-usage.txt")
+                .WriteTo.Console(theme: AnsiConsoleTheme.Literate)
                 .CreateLogger();
             var errorLogger = new LoggerConfiguration()
                 .WriteTo.File("web-log-error.txt")
+                .WriteTo.Console(theme: AnsiConsoleTheme.Literate)
                 .CreateLogger();
 
             var perfLogParam = new NamedParameter("perfLogger", perfLogger);
@@ -152,19 +131,19 @@ namespace poced.web
             }
             else
             {
-                app.UseExceptionHandler("/Home/Error");
+                app.UseExceptionHandler("/Error");
             }
 
             app.UseAuthentication();
 
             app.UseStaticFiles();
-
-            app.UseMvc(routes =>
-            {
-                routes.MapRoute(
-                    name: "default",
-                    template: "{controller=Home}/{action=Index}/{id?}");
-            });
+            app.UseMvcWithDefaultRoute();
+            //app.UseMvc(routes =>
+            //{
+            //    routes.MapRoute(
+            //        name: "default",
+            //        template: "{controller=Articles}/{action=Index}/{id?}");
+            //});
         }
     }
 }

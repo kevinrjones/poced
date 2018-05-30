@@ -2,8 +2,12 @@
   "iisSettings": {
     "windowsAuthentication": false,
     "anonymousAuthentication": true,
+    "iis": {
+      "applicationUrl": "http://poced.local",
+      "sslPort": 0
+    },
     "iisExpress": {
-      "applicationUrl": "http://localhost:50083/",
+      "applicationUrl": "http://localhost:50084",
       "sslPort": 0
     }
   },
@@ -15,13 +19,16 @@
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
     },
-    "poced.web": {
+    "Host": {
       "commandName": "Project",
       "launchBrowser": true,
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       },
-      "applicationUrl": "http://localhost:50084/"
+      "applicationUrl": "http://localhost:50084"
+    },
+    "IIS": {
+      "commandName": "IIS"
     }
   }
 }

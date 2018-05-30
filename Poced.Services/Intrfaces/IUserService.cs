@@ -12,8 +12,8 @@ namespace Poced.Services.Intrfaces
         PocedUser CreateAndLoginUser(string username, string provider, string providerId, IEnumerable<Claim> claims);
 
         Task<IdentityResult> CreateAsync(PocedUser user);
+        Task<IdentityResult> CreateAsync(PocedUser user, string password);
 
-        PocedUser CreateUser(string userName, string password);
         IdentityResult CreateUserIdentity(string provider, string providerId);
         bool AddLogin(string userId, string provider, string providerId);
         IdentityResult CreateIdentity(PocedUser user, string authenticationName);

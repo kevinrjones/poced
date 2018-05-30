@@ -31,14 +31,14 @@ namespace Poced.Repository
 
         public bool AddClaim(string userId, Claim claim)
         {
-            var pocedUser = new PocedUser{Id = userId};
+            var pocedUser = new PocedUser { Id = userId};
             var result = _userManager.AddClaimAsync(pocedUser, claim).Result;
             return result == IdentityResult.Success;
         }
 
         public PocedUser Create(string userName)
         {
-            var user = new PocedUser {UserName = userName};
+            var user = new PocedUser { UserName = userName};
 
             var result = _userManager.CreateAsync(user).Result;
             return result != IdentityResult.Success ? null : user;
@@ -46,7 +46,7 @@ namespace Poced.Repository
 
         public PocedUser Create(string userName, string password)
         {
-            var user = new PocedUser {UserName = userName};
+            var user = new PocedUser { UserName = userName};
             var result = _userManager.CreateAsync(user, password).Result;
             return result != IdentityResult.Success ? null : user;
         }

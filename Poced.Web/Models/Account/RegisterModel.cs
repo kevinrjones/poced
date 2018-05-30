@@ -5,11 +5,11 @@ namespace Poced.Web.Models
     public class RegisterModel
     {
         [Required]
-        public string Username { get; set; }
-        [Required]
+        [DataType(DataType.Password)]
         public string Password { get; set; }
         [Required]
         [Compare("Password", ErrorMessage = "Password confirmation not the same as the password")]
+        [DataType(DataType.Password)]
         public string ConfirmPassword { get; set; }
 
         [Required]
@@ -19,6 +19,6 @@ namespace Poced.Web.Models
     public class RegisterExternalModel
     {
         [Required]
-        public string Username { get; set; }
+        public string Email { get; set; }
     }
 }

@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
-using System.Web;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -101,7 +99,7 @@ namespace Poced.Web.Controllers
             if (ModelState.IsValid)
             {
                 var user = new PocedUser { UserName = model.Email, Email = model.Email };
-                var result = await _userService.CreateAsync(user);
+                var result = await _userService.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
                     _logger.WriteDiagnostic(HttpContext, "Poced", "Web", "User created a new account with password.");
